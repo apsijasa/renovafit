@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RenovaFit - Entrenamiento especializado post cirugía bariátrica</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Ubuntu -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="renovafit-logo">RenovaFit</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#quienes-somos">Quiénes Somos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#videos">Videos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-agenda" href="agendamiento.html">Agenda tu Clase</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Carousel -->
+    <header id="header-carousel">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/api/placeholder/1920/800" class="d-block w-100" alt="Entrenamiento Especializado">
+                    <div class="carousel-caption">
+                        <h2>Entrenamiento Especializado</h2>
+                        <p>Diseñado para personas con cirugía bariátrica, bypass o balón gástrico</p>
+                        <a href="agendamiento.html" class="btn btn-primary btn-lg">Agenda tu Clase Gratis</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="/api/placeholder/1920/800" class="d-block w-100" alt="Recuperación y Fortalecimiento">
+                    <div class="carousel-caption">
+                        <h2>Recuperación y Fortalecimiento</h2>
+                        <p>Programas personalizados para tu proceso de recuperación</p>
+                        <a href="#servicios" class="btn btn-primary btn-lg">Conoce Nuestros Servicios</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="/api/placeholder/1920/800" class="d-block w-100" alt="Equipo Profesional">
+                    <div class="carousel-caption">
+                        <h2>Equipo Profesional</h2>
+                        <p>Kinesiólogos y entrenadores especializados en tu tipo de recuperación</p>
+                        <a href="#quienes-somos" class="btn btn-primary btn-lg">Conócenos</a>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Quiénes Somos -->
+    <section id="quienes-somos" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Quiénes Somos</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="/api/placeholder/600/400" alt="Equipo RenovaFit" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <h3>RenovaFit: Especialistas en tu renovación física</h3>
+                    <p>Somos un equipo de profesionales especializados en kinesiología y entrenamiento físico para personas que han pasado por cirugías bariátricas, bypass gástrico o balón gástrico.</p>
+                    <p>Entendemos que después de estos procedimientos, el cuerpo necesita un enfoque especializado para adaptarse a los cambios y desarrollar hábitos saludables que perduren en el tiempo.</p>
+                    <div class="features mt-4">
+                        <div class="feature">
+                            <i class="fas fa-user-md"></i>
+                            <div>
+                                <h4>Equipo Profesional</h4>
+                                <p>Kinesiólogos y entrenadores certificados con experiencia en rehabilitación post-cirugía.</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clipboard-check"></i>
+                            <div>
+                                <h4>Programas Personalizados</h4>
+                                <p>Adaptamos cada rutina a tu condición específica y objetivos personales.</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-heart"></i>
+                            <div>
+                                <h4>Enfoque Integral</h4>
+                                <p>Trabajamos el cuerpo y la mente para una recuperación completa y duradera.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="section-padding bg-light">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Nuestros Servicios</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <div class="icon-box">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3>Entrenamiento Especializado</h3>
+                        <p>Programas de ejercicio adaptados a las necesidades específicas de personas con cirugía bariátrica, enfocados en fortalecer sin comprometer la recuperación.</p>
+                        <a href="#contacto" class="btn-more">Más información</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <div class="icon-box">
+                            <i class="fas fa-hands"></i>
+                        </div>
+                        <h3>Rehabilitación Kinesiológica</h3>
+                        <p>Terapia física especializada para mejorar la movilidad, reducir molestias y acelerar la recuperación post-cirugía bariátrica.</p>
+                        <a href="#contacto" class="btn-more">Más información</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <div class="icon-box">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <h3>Asesoría Nutricional</h3>
+                        <p>Orientación sobre alimentación adecuada para complementar tu entrenamiento y maximizar los beneficios de tu cirugía bariátrica.</p>
+                        <a href="#contacto" class="btn-more">Más información</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <div class="icon-box">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Clases Grupales</h3>
+                        <p>Sesiones en grupo con personas en situaciones similares, fomentando la motivación y el apoyo entre pares durante tu proceso.</p>
+                        <a href="#contacto" class="btn-more">Más información</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <div class="icon-box">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3>Entrenamiento Personal</h3>
+                        <p>Atención individualizada con un entrenador dedicado exclusivamente a tus necesidades y objetivos específicos.</p>
+                        <a href="#contacto" class="btn-more">Más información</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="service-card">
+                        <div class="icon-box">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Apoyo Psicológico</h3>
+                        <p>Soporte para manejar los cambios emocionales y psicológicos asociados con la transformación física post-cirugía.</p>
+                        <a href="#contacto" class="btn-more">Más información</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos -->
+    <section id="videos" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Videos Informativos</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="video-card">
+                        <div class="video-placeholder">
+                            <img src="/api/placeholder/400/250" alt="Video 1" class="img-fluid">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Ejercicios básicos post-cirugía</h3>
+                        <p>Aprende los movimientos fundamentales para iniciar tu recuperación de manera segura.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="video-card">
+                        <div class="video-placeholder">
+                            <img src="/api/placeholder/400/250" alt="Video 2" class="img-fluid">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Testimonios de pacientes</h3>
+                        <p>Historias reales de personas que han transformado su vida con nuestro programa.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="video-card">
+                        <div class="video-placeholder">
+                            <img src="/api/placeholder/400/250" alt="Video 3" class="img-fluid">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Nutrición complementaria</h3>
+                        <p>Consejos sobre alimentación para maximizar los resultados de tu entrenamiento.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section-padding bg-light">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Preguntas Frecuentes</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="accordion" id="accordionFAQ">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    ¿Cuándo puedo comenzar a ejercitarme después de una cirugía bariátrica?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    <p>Generalmente, se recomienda iniciar con ejercicios suaves entre 2 y 4 semanas después de la cirugía, siempre con la aprobación de tu médico. En RenovaFit, diseñamos programas adaptados a cada etapa de recuperación, comenzando con movimientos muy controlados y progresando gradualmente.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    ¿Qué tipo de ejercicios son seguros después de una cirugía bariátrica?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    <p>Inicialmente, se recomiendan caminatas suaves, ejercicios de respiración y movimientos controlados. A medida que avanza la recuperación, incorporamos ejercicios de resistencia ligera, entrenamiento de equilibrio y actividades cardiovasculares de bajo impacto, siempre adaptados a tu condición específica.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    ¿Necesito experiencia previa en ejercicio para unirme a RenovaFit?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    <p>No se requiere experiencia previa. Nuestros programas están diseñados para personas de todos los niveles, incluso aquellas que nunca han realizado ejercicio regularmente. Comenzamos desde lo más básico y avanzamos a tu ritmo, con atención personalizada para garantizar técnicas correctas y seguras.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    ¿Cómo complementa el ejercicio los resultados de mi cirugía bariátrica?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    <p>El ejercicio regular después de una cirugía bariátrica ayuda a preservar la masa muscular durante la pérdida de peso, mejora el metabolismo, previene la flacidez cutánea, aumenta la energía, mejora el estado de ánimo y contribuye a establecer hábitos saludables a largo plazo para mantener los resultados.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    ¿Ofrecen asesoramiento nutricional junto con el entrenamiento?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body">
+                                    <p>Sí, ofrecemos orientación nutricional básica complementaria a las indicaciones de tu nutricionista. Nuestro enfoque se centra en cómo alimentarte adecuadamente para optimizar tu entrenamiento y recuperación, siempre en consonancia con las restricciones dietéticas post-cirugía establecidas por tu equipo médico.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Contáctanos</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="contact-info">
+                        <h3>¿Tienes dudas? Estamos aquí para ayudarte</h3>
+                        <p>Completa el formulario y nos pondremos en contacto contigo a la brevedad, o utiliza nuestros datos de contacto directo.</p>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Dirección</h4>
+                                <p>Av. Ejemplo 1234, Santiago, Chile</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <h4>Teléfono</h4>
+                                <p>+56 9 1234 5678</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>contacto@renovafit.cl</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Horario de Atención</h4>
+                                <p>Lunes a Viernes: 8:00 AM - 8:00 PM<br>
+                                Sábados: 9:00 AM - 2:00 PM</p>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links mt-4">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="contact-form">
+                        <form action="https://hook.us2.make.com/cq3rj472fk34hlb58thx7toim6pvmisb" method="POST">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" name="telefono" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mensaje" class="form-label">Mensaje</label>
+                                <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="politica" name="politica" required>
+                                <label class="form-check-label" for="politica">Acepto la política de privacidad</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Enviar Mensaje</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3>RenovaFit</h3>
+                    <p>Especialistas en kinesiología y entrenamiento físico para personas con cirugía bariátrica, bypass gástrico o balón gástrico.</p>
+                    <p>© 2025 RenovaFit. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#quienes-somos">Quiénes Somos</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#videos">Videos</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                        <li><a href="agendamiento.html">Agenda tu Clase</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>Newsletter</h3>
+                    <p>Suscríbete para recibir consejos y novedades sobre entrenamiento especializado.</p>
+                    <form class="newsletter-form">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Tu email" aria-label="Tu email">
+                            <button class="btn btn-primary" type="submit">Suscribir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Activar scrollspy para el menú
+        document.addEventListener('DOMContentLoaded', function() {
+            // Añadir padding al body igual a la altura del navbar
+            const navbar = document.querySelector('.navbar');
+            document.body.style.paddingTop = navbar.offsetHeight + 'px';
+            
+            // Smooth scrolling para enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - navbar.offsetHeight;
+                        
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Cerrar menú móvil si está abierto
+                        const navbarCollapse = document.querySelector('.navbar-collapse');
+                        if (navbarCollapse.classList.contains('show')) {
+                            navbarCollapse.classList.remove('show');
+                        }
+                    }
+                });
+            });
+            
+            // Cambiar estilo del navbar al hacer scroll
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
