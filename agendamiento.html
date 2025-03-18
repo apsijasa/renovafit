@@ -16,6 +16,142 @@
     
     <!-- Custom CSS -->
     <link href="style.css" rel="stylesheet">
+
+    <style>
+        /* Estilos adicionales para el flujo de agendamiento */
+        .booking-step {
+            display: none;
+        }
+        .booking-step.active {
+            display: block;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+        .step.active {
+            background-color: #3498db;
+        }
+        .step.completed {
+            background-color: #2ecc71;
+        }
+        .step-label {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #5d6d7e;
+            white-space: nowrap;
+        }
+        .service-selection, .professional-selection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .service-card-small, .professional-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: calc(50% - 15px);
+            margin-bottom: 15px;
+        }
+        .service-card-small:hover, .professional-card:hover {
+            border-color: #3498db;
+            transform: translateY(-5px);
+        }
+        .service-card-small.selected, .professional-card.selected {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .service-card-small i {
+            font-size: 1.5rem;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .service-card-small h4, .professional-card h4 {
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        .professional-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .btn-navigation {
+            margin-top: 20px;
+        }
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .payment-method {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: calc(33.333% - 10px);
+            text-align: center;
+        }
+        .payment-method:hover {
+            border-color: #3498db;
+        }
+        .payment-method.selected {
+            border-color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .payment-method i {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .form-progress-container {
+            background-color: #f5f5f5;
+            border-radius: 30px;
+            height: 10px;
+            width: 100%;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .form-progress {
+            background-color: #3498db;
+            height: 100%;
+            width: 25%;
+            transition: width 0.3s ease;
+        }
+    </style>
 </head>
 <body class="agenda-page">
     <!-- Navbar -->
@@ -57,9 +193,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <h1>Agenda tu Clase de Prueba</h1>
+                    <h1>Agenda tu Consulta</h1>
                     <div class="divider"></div>
-                    <p>Da el primer paso hacia tu renovación física con una clase de prueba gratuita. Completa el formulario y nuestro equipo se pondrá en contacto contigo para confirmar tu cita.</p>
+                    <p>Da el primer paso hacia tu renovación física. Selecciona el servicio que necesitas, el profesional y el horario que más te convenga.</p>
                 </div>
             </div>
         </div>
@@ -71,95 +207,156 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <div class="booking-form-container">
-                        <form action="https://hook.us2.make.com/wpx3hnrqg594cvxsn9e8pantgnyhjtd9" method="POST">
-                            <!-- Información Personal -->
-                            <div class="form-section">
-                                <h3>Información Personal</h3>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nombre" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="apellido" class="form-label">Apellido</label>
-                                        <input type="text" class="form-control" id="apellido" name="apellido" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="telefono" class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="telefono" name="telefono" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="edad" class="form-label">Edad</label>
-                                    <input type="number" class="form-control" id="edad" name="edad" min="18" max="80" required>
-                                </div>
-                            </div>
+                        <div class="form-progress-container">
+                            <div class="form-progress" id="form-progress"></div>
+                        </div>
 
-                            <!-- Información Médica -->
-                            <div class="form-section">
-                                <h3>Información Médica</h3>
-                                <div class="mb-3">
-                                    <label class="form-label">Tipo de cirugía</label>
-                                    <select class="form-select" name="tipo_cirugia" required>
-                                        <option value="" selected disabled>Selecciona una opción</option>
-                                        <option value="by_pass">Bypass Gástrico</option>
-                                        <option value="sleeve">Manga Gástrica</option>
-                                        <option value="balon">Balón Gástrico</option>
-                                        <option value="otro">Otro</option>
-                                        <option value="ninguna">Ninguna (Prevención)</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="fecha_cirugia" class="form-label">Fecha de cirugía (si aplica)</label>
-                                    <input type="date" class="form-control" id="fecha_cirugia" name="fecha_cirugia">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="condiciones" class="form-label">¿Tienes alguna condición médica adicional que debamos conocer?</label>
-                                    <textarea class="form-control" id="condiciones" name="condiciones" rows="3"></textarea>
-                                </div>
+                        <div class="step-indicator">
+                            <div class="step active" id="step-indicator-1">1
+                                <span class="step-label">Información personal</span>
                             </div>
+                            <div class="step" id="step-indicator-2">2
+                                <span class="step-label">Selección de servicio</span>
+                            </div>
+                            <div class="step" id="step-indicator-3">3
+                                <span class="step-label">Selección de profesional</span>
+                            </div>
+                            <div class="step" id="step-indicator-4">4
+                                <span class="step-label">Fecha y hora</span>
+                            </div>
+                            <div class="step" id="step-indicator-5">5
+                                <span class="step-label">Pago</span>
+                            </div>
+                        </div>
 
-                            <!-- Preferencias de agendamiento -->
-                            <div class="form-section">
-                                <h3>Preferencias de Agendamiento</h3>
-                                <div class="mb-3">
-                                    <label class="form-label">Días preferidos para tu clase de prueba</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="lunes" id="lunes" name="dias_preferidos[]">
-                                        <label class="form-check-label" for="lunes">Lunes</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="martes" id="martes" name="dias_preferidos[]">
-                                        <label class="form-check-label" for="martes">Martes</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="miercoles" id="miercoles" name="dias_preferidos[]">
-                                        <label class="form-check-label" for="miercoles">Miércoles</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="jueves" id="jueves" name="dias_preferidos[]">
-                                        <label class="form-check-label" for="jueves">Jueves</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="viernes" id="viernes" name="dias_preferidos[]">
-                                        <label class="form-check-label" for="viernes">Viernes</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="sabado" id="sabado" name="dias_preferidos[]">
-                                        <label class="form-check-label" for="sabado">Sábado</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Selecciona fecha y horario</label>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="fecha_cita" class="form-label">Fecha</label>
-                                            <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required onchange="cargarHorariosDisponibles()">
+                        <form action="https://hook.us2.make.com/wpx3hnrqg594cvxsn9e8pantgnyhjtd9" method="POST" id="booking-form">
+                            <!-- Paso 1: Información Personal -->
+                            <div class="booking-step active" id="step-1">
+                                <div class="form-section">
+                                    <h3>Información Personal</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombre" class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" id="nombre" name="nombre" required>
                                         </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="apellido" class="form-label">Apellido</label>
+                                            <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="telefono" class="form-label">Teléfono</label>
+                                        <input type="tel" class="form-control" id="telefono" name="telefono" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="edad" class="form-label">Edad</label>
+                                        <input type="number" class="form-control" id="edad" name="edad" min="18" max="80" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <h3>Información Médica</h3>
+                                    <div class="mb-3">
+                                        <label class="form-label">Tipo de cirugía</label>
+                                        <select class="form-select" name="tipo_cirugia" required>
+                                            <option value="" selected disabled>Selecciona una opción</option>
+                                            <option value="by_pass">Bypass Gástrico</option>
+                                            <option value="sleeve">Manga Gástrica</option>
+                                            <option value="balon">Balón Gástrico</option>
+                                            <option value="otro">Otro</option>
+                                            <option value="ninguna">Ninguna (Prevención)</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fecha_cirugia" class="form-label">Fecha de cirugía (si aplica)</label>
+                                        <input type="date" class="form-control" id="fecha_cirugia" name="fecha_cirugia">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="condiciones" class="form-label">¿Tienes alguna condición médica adicional que debamos conocer?</label>
+                                        <textarea class="form-control" id="condiciones" name="condiciones" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end btn-navigation">
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Paso 2: Selección de Servicio -->
+                            <div class="booking-step" id="step-2">
+                                <div class="form-section">
+                                    <h3>Selecciona el Servicio</h3>
+                                    <input type="hidden" name="servicio_seleccionado" id="servicio_seleccionado">
+                                    
+                                    <div class="service-selection">
+                                        <div class="service-card-small" onclick="selectService('entrenamiento-personal', 'Entrenamiento Personalizado', this)">
+                                            <i class="fas fa-dumbbell"></i>
+                                            <h4>Entrenamiento Personalizado</h4>
+                                            <p>Sesiones individuales adaptadas a tu condición física</p>
+                                        </div>
+                                        <div class="service-card-small" onclick="selectService('entrenamiento-grupal', 'Entrenamiento Grupal', this)">
+                                            <i class="fas fa-users"></i>
+                                            <h4>Entrenamiento Grupal</h4>
+                                            <p>Ejercicio en grupo con personas en situación similar</p>
+                                        </div>
+                                        <div class="service-card-small" onclick="selectService('nutricion', 'Nutrición', this)">
+                                            <i class="fas fa-apple-alt"></i>
+                                            <h4>Nutrición</h4>
+                                            <p>Asesoría nutricional especializada</p>
+                                        </div>
+                                        <div class="service-card-small" onclick="selectService('dermatologia', 'Dermatología', this)">
+                                            <i class="fas fa-spa"></i>
+                                            <h4>Dermatología</h4>
+                                            <p>Tratamientos para la piel tras la pérdida de peso</p>
+                                        </div>
+                                        <div class="service-card-small" onclick="selectService('psicologia', 'Psicología', this)">
+                                            <i class="fas fa-brain"></i>
+                                            <h4>Psicología</h4>
+                                            <p>Apoyo psicológico durante tu proceso</p>
+                                        </div>
+                                        <div class="service-card-small" onclick="selectService('psiquiatria', 'Psiquiatría', this)">
+                                            <i class="fas fa-pills"></i>
+                                            <h4>Psiquiatría</h4>
+                                            <p>Evaluación y seguimiento psiquiátrico</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between btn-navigation">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(2)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Paso 3: Selección de Profesional -->
+                            <div class="booking-step" id="step-3">
+                                <div class="form-section">
+                                    <h3>Selecciona el Profesional</h3>
+                                    <input type="hidden" name="profesional_seleccionado" id="profesional_seleccionado">
+                                    
+                                    <div class="professional-selection" id="profesionales-container">
+                                        <!-- Los profesionales se cargarán dinámicamente según el servicio seleccionado -->
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between btn-navigation">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Paso 4: Selección de Fecha y Hora -->
+                            <div class="booking-step" id="step-4">
+                                <div class="form-section">
+                                    <h3>Selecciona Fecha y Hora</h3>
+                                    
+                                    <div class="mb-3">
+                                        <label for="fecha_cita" class="form-label">Fecha</label>
+                                        <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required onchange="cargarHorariosDisponibles()">
                                     </div>
                                     
                                     <div class="horarios-container mt-4" id="horarios-container">
@@ -172,44 +369,81 @@
                                     
                                     <input type="hidden" id="horario_seleccionado" name="horario_seleccionado" required>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="comentarios" class="form-label">Comentarios adicionales</label>
                                     <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
                                 </div>
-                            </div>
 
-                            <!-- Cómo nos conociste -->
-                            <div class="form-section">
-                                <h3>¿Cómo nos conociste?</h3>
-                                <div class="mb-3">
-                                    <select class="form-select" name="como_conocio" required>
-                                        <option value="" selected disabled>Selecciona una opción</option>
-                                        <option value="redes">Redes Sociales</option>
-                                        <option value="amigo">Recomendación de un amigo</option>
-                                        <option value="medico">Recomendación médica</option>
-                                        <option value="busqueda">Búsqueda en Internet</option>
-                                        <option value="otro">Otro</option>
-                                    </select>
+                                <div class="d-flex justify-content-between btn-navigation">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(4)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(4)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
                                 </div>
                             </div>
 
-                            <!-- Términos y condiciones -->
-                            <div class="form-section">
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="terminos" name="terminos" required>
-                                    <label class="form-check-label" for="terminos">He leído y acepto los términos y condiciones</label>
+                            <!-- Paso 5: Pago -->
+                            <div class="booking-step" id="step-5">
+                                <div class="form-section">
+                                    <h3>Resumen de la Consulta</h3>
+                                    <div class="summary-box p-3 mb-4 bg-light rounded">
+                                        <div class="row mb-2">
+                                            <div class="col-5 fw-bold">Servicio:</div>
+                                            <div class="col-7" id="summary-service">-</div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-5 fw-bold">Profesional:</div>
+                                            <div class="col-7" id="summary-professional">-</div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-5 fw-bold">Fecha y hora:</div>
+                                            <div class="col-7" id="summary-datetime">-</div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-5 fw-bold">Precio:</div>
+                                            <div class="col-7" id="summary-price">$25.000</div>
+                                        </div>
+                                    </div>
+
+                                    <h3>Método de Pago</h3>
+                                    <input type="hidden" name="metodo_pago" id="metodo_pago">
+
+                                    <div class="payment-methods">
+                                        <div class="payment-method" onclick="selectPaymentMethod('credit-card', 'Tarjeta de Crédito', this)">
+                                            <i class="fas fa-credit-card"></i>
+                                            <h4>Tarjeta de Crédito</h4>
+                                        </div>
+                                        <div class="payment-method" onclick="selectPaymentMethod('debit-card', 'Tarjeta de Débito', this)">
+                                            <i class="fas fa-credit-card"></i>
+                                            <h4>Tarjeta de Débito</h4>
+                                        </div>
+                                        <div class="payment-method" onclick="selectPaymentMethod('webpay', 'WebPay', this)">
+                                            <i class="fas fa-money-check-alt"></i>
+                                            <h4>WebPay</h4>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="politica_privacidad" name="politica_privacidad" required>
-                                    <label class="form-check-label" for="politica_privacidad">Acepto la política de privacidad</label>
+
+                                <!-- Términos y condiciones -->
+                                <div class="form-section">
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="terminos" name="terminos" required>
+                                        <label class="form-check-label" for="terminos">He leído y acepto los términos y condiciones</label>
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="politica_privacidad" name="politica_privacidad" required>
+                                        <label class="form-check-label" for="politica_privacidad">Acepto la política de privacidad</label>
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="marketing" name="marketing">
+                                        <label class="form-check-label" for="marketing">Acepto recibir información y ofertas por email</label>
+                                    </div>
                                 </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="marketing" name="marketing">
-                                    <label class="form-check-label" for="marketing">Acepto recibir información y ofertas por email</label>
+
+                                <div class="d-flex justify-content-between btn-navigation">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(5)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="submit" class="btn btn-success btn-lg">Pagar Consulta <i class="fas fa-check ms-2"></i></button>
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary w-100">Agendar mi Clase de Prueba</button>
                         </form>
                     </div>
                 </div>
@@ -301,7 +535,223 @@
             fechaInput.max = maxDate.toISOString().split('T')[0];
         });
 
-        // Función para simular la carga de horarios disponibles desde un servidor
+        // Base de datos simulada de profesionales
+        const profesionales = {
+            'entrenamiento-personal': [
+                { id: 'ep1', nombre: 'Juan Pérez', especialidad: 'Kinesiólogo', imagen: '/api/placeholder/80/80' },
+                { id: 'ep2', nombre: 'María González', especialidad: 'Entrenador Personal', imagen: '/api/placeholder/80/80' },
+                { id: 'ep3', nombre: 'Pedro Soto', especialidad: 'Fisioterapeuta', imagen: '/api/placeholder/80/80' }
+            ],
+            'entrenamiento-grupal': [
+                { id: 'eg1', nombre: 'Ana López', especialidad: 'Instructora de Fitness', imagen: '/api/placeholder/80/80' },
+                { id: 'eg2', nombre: 'Carlos Ruiz', especialidad: 'Entrenador Grupal', imagen: '/api/placeholder/80/80' }
+            ],
+            'nutricion': [
+                { id: 'n1', nombre: 'Paola Ramírez', especialidad: 'Nutricionista', imagen: '/api/placeholder/80/80' },
+                { id: 'n2', nombre: 'José Martínez', especialidad: 'Nutriólogo', imagen: '/api/placeholder/80/80' }
+            ],
+            'dermatologia': [
+                { id: 'd1', nombre: 'Cristina Vega', especialidad: 'Dermatóloga', imagen: '/api/placeholder/80/80' },
+                { id: 'd2', nombre: 'Roberto Díaz', especialidad: 'Médico Dermatólogo', imagen: '/api/placeholder/80/80' }
+            ],
+            'psicologia': [
+                { id: 'ps1', nombre: 'Lucía Fuentes', especialidad: 'Psicóloga Clínica', imagen: '/api/placeholder/80/80' },
+                { id: 'ps2', nombre: 'Miguel Torres', especialidad: 'Psicólogo', imagen: '/api/placeholder/80/80' }
+            ],
+            'psiquiatria': [
+                { id: 'psq1', nombre: 'Gabriela Castro', especialidad: 'Psiquiatra', imagen: '/api/placeholder/80/80' },
+                { id: 'psq2', nombre: 'Daniel Morales', especialidad: 'Médico Psiquiatra', imagen: '/api/placeholder/80/80' }
+            ]
+        };
+
+        // Variables para almacenar las selecciones del usuario
+        let servicioSeleccionado = '';
+        let nombreServicio = '';
+        let profesionalSeleccionado = '';
+        let nombreProfesional = '';
+        let metodoPagoSeleccionado = '';
+        let nombreMetodoPago = '';
+
+        // Función para navegar al siguiente paso
+        function nextStep(currentStep) {
+            // Validación para cada paso
+            if (currentStep === 1) {
+                // Validar campos del paso 1
+                const camposRequeridos = ['nombre', 'apellido', 'email', 'telefono', 'edad'];
+                for (const campo of camposRequeridos) {
+                    const elemento = document.getElementById(campo);
+                    if (!elemento.value) {
+                        alert('Por favor completa todos los campos requeridos.');
+                        elemento.focus();
+                        return;
+                    }
+                }
+                
+                // Validar selección de tipo de cirugía
+                const tipoCirugia = document.querySelector('select[name="tipo_cirugia"]');
+                if (tipoCirugia.value === "") {
+                    alert('Por favor selecciona un tipo de cirugía.');
+                    tipoCirugia.focus();
+                    return;
+                }
+            } else if (currentStep === 2) {
+                // Validar selección de servicio
+                if (!servicioSeleccionado) {
+                    alert('Por favor selecciona un servicio.');
+                    return;
+                }
+            } else if (currentStep === 3) {
+                // Validar selección de profesional
+                if (!profesionalSeleccionado) {
+                    alert('Por favor selecciona un profesional.');
+                    return;
+                }
+            } else if (currentStep === 4) {
+                // Validar selección de fecha y hora
+                const fechaCita = document.getElementById('fecha_cita');
+                const horarioSeleccionado = document.getElementById('horario_seleccionado');
+                
+                if (!fechaCita.value) {
+                    alert('Por favor selecciona una fecha para tu cita.');
+                    fechaCita.focus();
+                    return;
+                }
+                
+                if (!horarioSeleccionado.value) {
+                    alert('Por favor selecciona un horario para tu cita.');
+                    return;
+                }
+
+                // Actualizar resumen para el paso 5
+                document.getElementById('summary-service').textContent = nombreServicio;
+                document.getElementById('summary-professional').textContent = nombreProfesional;
+                
+                // Formatear la fecha y hora para el resumen
+                const fechaHora = horarioSeleccionado.value.split(' ');
+                const fecha = new Date(fechaHora[0]);
+                const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones);
+                document.getElementById('summary-datetime').textContent = fechaFormateada + ' a las ' + fechaHora[1];
+            }
+
+            // Ocultar el paso actual y mostrar el siguiente
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            document.getElementById('step-' + (currentStep + 1)).classList.add('active');
+            
+            // Actualizar indicadores de paso
+            document.getElementById('step-indicator-' + currentStep).classList.remove('active');
+            document.getElementById('step-indicator-' + currentStep).classList.add('completed');
+            document.getElementById('step-indicator-' + (currentStep + 1)).classList.add('active');
+            
+            // Actualizar la barra de progreso
+            const progress = (currentStep * 20) + 20;
+            document.getElementById('form-progress').style.width = progress + '%';
+            
+            // Scroll al inicio del formulario
+            window.scrollTo({
+                top: document.querySelector('.booking-form-container').offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+
+        // Función para volver al paso anterior
+        function prevStep(currentStep) {
+            document.getElementById('step-' + currentStep).classList.remove('active');
+            document.getElementById('step-' + (currentStep - 1)).classList.add('active');
+            
+            // Actualizar indicadores de paso
+            document.getElementById('step-indicator-' + currentStep).classList.remove('active');
+            document.getElementById('step-indicator-' + (currentStep - 1)).classList.remove('completed');
+            document.getElementById('step-indicator-' + (currentStep - 1)).classList.add('active');
+            
+            // Actualizar la barra de progreso
+            const progress = ((currentStep - 1) * 20);
+            document.getElementById('form-progress').style.width = progress + '%';
+            
+            // Scroll al inicio del formulario
+            window.scrollTo({
+                top: document.querySelector('.booking-form-container').offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+
+        // Función para seleccionar un servicio
+        function selectService(serviceId, serviceName, element) {
+            // Quitar selección anterior
+            const servicios = document.querySelectorAll('.service-card-small');
+            servicios.forEach(s => s.classList.remove('selected'));
+            
+            // Seleccionar el nuevo servicio
+            element.classList.add('selected');
+            servicioSeleccionado = serviceId;
+            nombreServicio = serviceName;
+            document.getElementById('servicio_seleccionado').value = servicioSeleccionado;
+            
+            // Cargar profesionales para este servicio
+            cargarProfesionales(serviceId);
+        }
+
+        // Función para cargar profesionales según el servicio seleccionado
+        function cargarProfesionales(serviceId) {
+            const container = document.getElementById('profesionales-container');
+            container.innerHTML = '';
+            
+            const profService = profesionales[serviceId] || [];
+            
+            if (profService.length === 0) {
+                container.innerHTML = '<p class="text-center">No hay profesionales disponibles para este servicio en este momento.</p>';
+                return;
+            }
+            
+            profService.forEach(prof => {
+                const card = document.createElement('div');
+                card.className = 'professional-card';
+                card.onclick = function() {
+                    selectProfessional(prof.id, prof.nombre, this);
+                };
+                
+                card.innerHTML = `
+                    <img src="${prof.imagen}" alt="${prof.nombre}" class="professional-img">
+                    <h4>${prof.nombre}</h4>
+                    <p>${prof.especialidad}</p>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Resetear selección previa
+            profesionalSeleccionado = '';
+            nombreProfesional = '';
+            document.getElementById('profesional_seleccionado').value = '';
+        }
+
+        // Función para seleccionar un profesional
+        function selectProfessional(profId, profName, element) {
+            // Quitar selección anterior
+            const profs = document.querySelectorAll('.professional-card');
+            profs.forEach(p => p.classList.remove('selected'));
+            
+            // Seleccionar el nuevo profesional
+            element.classList.add('selected');
+            profesionalSeleccionado = profId;
+            nombreProfesional = profName;
+            document.getElementById('profesional_seleccionado').value = profesionalSeleccionado;
+        }
+
+        // Función para seleccionar un método de pago
+        function selectPaymentMethod(methodId, methodName, element) {
+            // Quitar selección anterior
+            const methods = document.querySelectorAll('.payment-method');
+            methods.forEach(m => m.classList.remove('selected'));
+            
+            // Seleccionar el nuevo método
+            element.classList.add('selected');
+            metodoPagoSeleccionado = methodId;
+            nombreMetodoPago = methodName;
+            document.getElementById('metodo_pago').value = metodoPagoSeleccionado;
+        }
+
+        // Función para cargar horarios disponibles
         function cargarHorariosDisponibles() {
             const fechaSeleccionada = document.getElementById('fecha_cita').value;
             const timeSlotsContainer = document.getElementById('time-slots-container');
@@ -359,7 +809,7 @@
                         html += '</button>';
                     } else {
                         html += '<button type="button" class="time-slot-btn disabled" disabled>';
-                        html += slot.hora + ' (Ocupado)';
+                        html += slot.hora;
                         html += '</button>';
                     }
                 });
@@ -374,7 +824,7 @@
                         html += '</button>';
                     } else {
                         html += '<button type="button" class="time-slot-btn disabled" disabled>';
-                        html += slot.hora + ' (Ocupado)';
+                        html += slot.hora;
                         html += '</button>';
                     }
                 });
@@ -389,7 +839,7 @@
                         html += '</button>';
                     } else {
                         html += '<button type="button" class="time-slot-btn disabled" disabled>';
-                        html += slot.hora + ' (Ocupado)';
+                        html += slot.hora;
                         html += '</button>';
                     }
                 });
@@ -413,7 +863,7 @@
             
             // Añadir clase 'selected' al botón correspondiente
             for (let i = 0; i < buttons.length; i++) {
-                if (buttons[i].textContent.trim().startsWith(hora)) {
+                if (buttons[i].textContent.trim() === hora) {
                     buttons[i].classList.add('selected');
                 }
             }
@@ -436,5 +886,3 @@
             selectedTimeText.textContent = fechaFormateada + ' a las ' + hora;
         }
     </script>
-</body>
-</html>
