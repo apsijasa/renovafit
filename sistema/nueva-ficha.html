@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Ficha Médica - RenovaFit</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Ubuntu -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Flatpickr - Date Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <!-- SweetAlert2 para notificaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Custom CSS -->
+    <link href="/asset/style/style.css" rel="stylesheet">
+    <link href="/asset/style/sistema.css" rel="stylesheet">
+</head>
+<body class="sistema-page has-sidebar">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <span class="renovafit-logo">RenovaFit</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2"></i><span id="usuario-nombre">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="cerrar-sesion"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="user-details">
+                    <h5 id="sidebar-nombre">Usuario</h5>
+                    <p id="sidebar-especialidad">Especialidad</p>
+                </div>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a href="fichas-medicas.html"><i class="fas fa-folder-open"></i> Fichas Médicas</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-calendar-alt"></i> Agenda</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-users"></i> Pacientes</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-chart-line"></i> Estadísticas</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+            </li>
+            <li class="sidebar-divider"></li>
+            <li>
+                <a href="#" id="sidebar-cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1><i class="fas fa-folder-plus me-2"></i>Nueva Ficha Médica</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-md-end">
+                                <li class="breadcrumb-item"><a href="fichas-medicas.html">Fichas Médicas</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Nueva Ficha</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="container-fluid">
+            <!-- Form Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Datos de la Ficha Médica</h5>
+                </div>
+                <div class="card-body">
+                    <form id="ficha-form">
+                        <!-- Paso 1: Selección del paciente -->
+                        <div class="form-section">
+                            <h4>Selección del Paciente</h4>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Paciente existente</label>
+                                    <select class="form-select" id="paciente-existente">
+                                        <option value="" selected>Seleccione un paciente</option>
+                                        <!-- Se cargará dinámicamente -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <div>
+                                        <p class="mb-2">¿No encuentra al paciente?</p>
+                                        <button type="button" class="btn btn-outline-primary" id="btn-nuevo-paciente">
+                                            <i class="fas fa-user-plus me-2"></i>Crear Nuevo Paciente
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Formulario para nuevo paciente (oculto por defecto) -->
+                            <div id="form-nuevo-paciente" style="display: none;">
+                                <hr>
+                                <h5>Datos del Nuevo Paciente</h5>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="paciente-rut" class="form-label">RUT / ID</label>
+                                        <input type="text" class="form-control" id="paciente-rut">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="paciente-nombre" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="paciente-nombre">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="paciente-apellido" class="form-label">Apellido</label>
+                                        <input type="text" class="form-control" id="paciente-apellido">
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="paciente-fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
+                                        <input type="date" class="form-control" id="paciente-fecha-nacimiento">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="paciente-edad" class="form-label">Edad</label>
+                                        <input type="number" min="0" max="120" class="form-control" id="paciente-edad">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="paciente-sexo" class="form-label">Sexo</label>
+                                        <select class="form-select" id="paciente-sexo">
+                                            <option value="">Seleccione</option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Femenino">Femenino</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="paciente-telefono" class="form-label">Teléfono</label>
+                                        <input type="tel" class="form-control" id="paciente-telefono">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="paciente-email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="paciente-email">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="paciente-direccion" class="form-label">Dirección</label>
+                                    <input type="text" class="form-control" id="paciente-direccion">
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="paciente-contacto-nombre" class="form-label">Contacto de Emergencia (Nombre)</label>
+                                        <input type="text" class="form-control" id="paciente-contacto-nombre">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="paciente-contacto-telefono" class="form-label">Contacto de Emergencia (Teléfono)</label>
+                                        <input type="tel" class="form-control" id="paciente-contacto-telefono">
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="btn btn-primary" id="btn-guardar-paciente">
+                                    <i class="fas fa-save me-2"></i>Guardar Paciente
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="btn-cancelar-paciente">
+                                    <i class="fas fa-times me-2"></i>Cancelar
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Paso 2: Datos administrativos -->
+                        <div class="form-section">
+                            <h4>Datos Administrativos</h4>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="fecha-ingreso" class="form-label">Fecha de Ingreso</label>
+                                    <input type="date" class="form-control" id="fecha-ingreso" required>
+                                </div>
+                                <div class="col-md-8">
+                                    <label for="motivo-consulta" class="form-label">Motivo de Consulta / Derivación</label>
+                                    <input type="text" class="form-control" id="motivo-consulta" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="profesional-deriva" class="form-label">Profesional que Deriva (si aplica)</label>
+                                    <select class="form-select" id="profesional-deriva">
+                                        <option value="">Seleccione</option>
+                                        <!-- Se cargará dinámicamente -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="prevision-salud" class="form-label">Previsión de Salud</label>
+                                    <input type="text" class="form-control" id="prevision-salud">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Paso 3: Antecedentes médicos -->
+                        <div class="form-section">
+                            <h4>Antecedentes Médicos Generales</h4>
+                            
+                            <div class="mb-3">
+                                <label for="diagnostico-principal" class="form-label">Diagnóstico Principal</label>
+                                <input type="text" class="form-control" id="diagnostico-principal">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="diagnosticos-secundarios" class="form-label">Diagnósticos Secundarios</label>
+                                <textarea class="form-control" id="diagnosticos-secundarios" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="antecedentes-relevantes" class="form-label">Antecedentes Médicos Relevantes</label>
+                                <textarea class="form-control" id="antecedentes-relevantes" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="alergias" class="form-label">Alergias</label>
+                                <input type="text" class="form-control" id="alergias">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="medicamentos-actuales" class="form-label">Medicamentos Actuales</label>
+                                <textarea class="form-control" id="medicamentos-actuales" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="tipo-cirugia" class="form-label">Tipo de Cirugía</label>
+                                    <select class="form-select" id="tipo-cirugia">
+                                        <option value="">Seleccione</option>
+                                        <option value="by_pass">Bypass Gástrico</option>
+                                        <option value="sleeve">Manga Gástrica</option>
+                                        <option value="balon">Balón Gástrico</option>
+                                        <option value="otro">Otro</option>
+                                        <option value="ninguna">Ninguna (Prevención)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fecha-cirugia" class="form-label">Fecha de Cirugía (si aplica)</label>
+                                    <input type="date" class="form-control" id="fecha-cirugia">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de acción -->
+                        <div class="d-flex justify-content-between">
+                            <a href="fichas-medicas.html" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Volver
+                            </a>
+                            <div>
+                                <button type="button" class="btn btn-outline-primary me-2" id="btn-guardar-borrador">
+                                    <i class="fas fa-save me-2"></i>Guardar como Borrador
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check-circle me-2"></i>Crear Ficha Médica
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+        <div class="text-center bg-white p-4 rounded">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="m-0" id="loading-message">Procesando...</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Verificación de autenticación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si hay un token guardado
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                // Redirigir al login si no hay token
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Cargar datos del usuario
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData) {
+                document.getElementById('usuario-nombre').textContent = `${userData.nombre} ${userData.apellido}`;
+                document.getElementById('sidebar-nombre').textContent = `${userData.nombre} ${userData.apellido}`;
+                document.getElementById('sidebar-especialidad').textContent = userData.especialidad;
+            }
+            
+            // Verificar validez del token
+            fetch('/api/auth/check', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Token inválido');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Token válido, continuar con la carga de la página
+                cargarPacientes();
+                cargarProfesionales();
+                inicializarFormulario();
+            })
+            .catch(error => {
+                console.error('Error de autenticación:', error);
+                // Token inválido, redirigir al login
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                window.location.href = 'login.html';
+            });
+            
+            // Manejar cierre de sesión
+            const cerrarSesion = function() {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                window.location.href = 'login.html';
+            };
+            
+            document.getElementById('cerrar-sesion').addEventListener('click', cerrarSesion);
+            document.getElementById('sidebar-cerrar-sesion').addEventListener('click', cerrarSesion);
+            
+            // Ajustar navbar y sidebar
+            const navbar = document.querySelector('.navbar');
+            const mainContent = document.querySelector('.main-content');
+            const sidebar = document.querySelector('.sidebar');
+            
+            mainContent.style.paddingTop = navbar.offsetHeight + 'px';
+            
+            // Toggle sidebar en dispositivos móviles
+            const sidebarToggle = document.createElement('button');
+            sidebarToggle.className = 'btn btn-primary sidebar-toggle';
+            sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            document.body.appendChild(sidebarToggle);
+            
+            sidebarToggle.addEventListener('click', function() {
+                document.body.classList.toggle('sidebar-open');
+            });
+            
+            // Cerrar sidebar al hacer clic en un enlace (en móviles)
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 992) {
+                        document.body.classList.remove('sidebar-open');
+                    }
+                });
+            });
+            
+            // Responsive behavior para sidebar
+            function checkWindowSize() {
+                if (window.innerWidth < 992) {
+                    document.body.classList.remove('sidebar-open');
+                }
+            }
+            
+            window.addEventListener('resize', checkWindowSize);
+            checkWindowSize();
+        });
+        
+        // Inicializar formulario
+        function inicializarFormulario() {
+            // Establecer fecha de ingreso al día actual
+            const fechaHoy = new Date().toISOString().split('T')[0];
+            document.getElementById('fecha-ingreso').value = fechaHoy;
+            
+            // Mostrar/ocultar formulario de nuevo paciente
+            document.getElementById('btn-nuevo-paciente').addEventListener('click', function() {
+                document.getElementById('form-nuevo-paciente').style.display = 'block';
+                document.getElementById('paciente-existente').disabled = true;
+            });
+            
+            // Cancelar creación de nuevo paciente
+            document.getElementById('btn-cancelar-paciente').addEventListener('click', function() {
+                document.getElementById('form-nuevo-paciente').style.display = 'none';
+                document.getElementById('paciente-existente').disabled = false;
+                limpiarFormularioPaciente();
+            });
+            
+            // Guardar nuevo paciente
+            document.getElementById('btn-guardar-paciente').addEventListener('click', function() {
+                guardarNuevoPaciente();
+            });
+            
+            // Calcular edad automáticamente cuando se ingresa fecha de nacimiento
+            document.getElementById('paciente-fecha-nacimiento').addEventListener('change', function() {
+                const fechaNacimiento = new Date(this.value);
+                const hoy = new Date();
+                let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+                const m = hoy.getMonth() - fechaNacimiento.getMonth();
+                
+                if (m < 0 || (m === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+                    edad--;
+                }
+                
+                document.getElementById('paciente-edad').value = edad;
+            });
+            
+            // Manejar envío del formulario
+            document.getElementById('ficha-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                crearFichaMedica();
+            });
+            
+            // Guardar como borrador
+            document.getElementById('btn-guardar-borrador').addEventListener('click', function() {
+                guardarBorrador();
+            });
+        }
+        
+        // Cargar pacientes existentes
+        function cargarPacientes() {
+            const token = localStorage.getItem('authToken');
+            const selectPaciente = document.getElementById('paciente-existente');
+            
+            // Mostrar mensaje de carga
+            selectPaciente.innerHTML = '<option value="" selected>Cargando pacientes...</option>';
+            
+            fetch('/api/pacientes', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar pacientes');
+                }
+                return response.json();
+            })
+            .then(pacientes => {
+                // Limpiar select
+                selectPaciente.innerHTML = '<option value="" selected>Seleccione un paciente</option>';
+                
+                // Ordenar pacientes por apellido y nombre
+                pacientes.sort((a, b) => {
+                    if (a.apellido === b.apellido) {
+                        return a.nombre.localeCompare(b.nombre);
+                    }
+                    return a.apellido.localeCompare(b.apellido);
+                });
+                
+                // Agregar pacientes al select
+                pacientes.forEach(paciente => {
+                    const option = document.createElement('option');
+                    option.value = paciente.id;
+                    option.textContent = `${paciente.apellido}, ${paciente.nombre} - ${paciente.rut || 'Sin RUT'}`;
+                    option.dataset.paciente = JSON.stringify(paciente);
+                    selectPaciente.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                selectPaciente.innerHTML = '<option value="" selected>Error al cargar pacientes</option>';
+            });
+        }
+        
+        // Cargar profesionales para el campo de derivación
+        function cargarProfesionales() {
+            const token = localStorage.getItem('authToken');
+            const selectProfesional = document.getElementById('profesional-deriva');
+            
+            // Mostrar mensaje de carga
+            selectProfesional.innerHTML = '<option value="" selected>Cargando profesionales...</option>';
+            
+            fetch('/api/profesionales', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar profesionales');
+                }
+                return response.json();
+            })
+            .then(profesionales => {
+                // Limpiar select
+                selectProfesional.innerHTML = '<option value="" selected>Seleccione</option>';
+                
+                // Ordenar profesionales por apellido y nombre
+                profesionales.sort((a, b) => {
+                    if (a.apellido === b.apellido) {
+                        return a.nombre.localeCompare(b.nombre);
+                    }
+                    return a.apellido.localeCompare(b.apellido);
+                });
+                
+                // Agregar profesionales al select
+                profesionales.forEach(profesional => {
+                    const option = document.createElement('option');
+                    option.value = profesional.id;
+                    option.textContent = `${profesional.apellido}, ${profesional.nombre} (${profesional.especialidad})`;
+                    selectProfesional.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                selectProfesional.innerHTML = '<option value="" selected>Error al cargar profesionales</option>';
+            });
+        }
+        
+        // Guardar nuevo paciente
+        function guardarNuevoPaciente() {
+            const token = localStorage.getItem('authToken');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            // Obtener datos del formulario
+            const pacienteData = {
+                rut: document.getElementById('paciente-rut').value,
+                nombre: document.getElementById('paciente-nombre').value,
+                apellido: document.getElementById('paciente-apellido').value,
+                fecha_nacimiento: document.getElementById('paciente-fecha-nacimiento').value,
+                edad: document.getElementById('paciente-edad').value,
+                sexo: document.getElementById('paciente-sexo').value,
+                telefono: document.getElementById('paciente-telefono').value,
+                email: document.getElementById('paciente-email').value,
+                direccion: document.getElementById('paciente-direccion').value,
+                contacto_emergencia_nombre: document.getElementById('paciente-contacto-nombre').value,
+                contacto_emergencia_telefono: document.getElementById('paciente-contacto-telefono').value
+            };
+            
+            // Validación básica
+            if (!pacienteData.nombre || !pacienteData.apellido) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Nombre y apellido son campos requeridos',
+                    icon: 'error'
+                });
+                return;
+            }
+            
+            // Mostrar pantalla de carga
+            loadingMessage.textContent = 'Guardando paciente...';
+            loadingOverlay.style.display = 'flex';
+            
+            // Enviar datos al servidor
+            fetch('/api/pacientes', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(pacienteData)
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(result => {
+                loadingOverlay.style.display = 'none';
+                
+                if (result.status === 201) {
+                    // Éxito
+                    Swal.fire({
+                        title: 'Paciente Creado',
+                        text: 'El paciente ha sido creado exitosamente',
+                        icon: 'success'
+                    });
+                    
+                    // Ocultar formulario
+                    document.getElementById('form-nuevo-paciente').style.display = 'none';
+                    document.getElementById('paciente-existente').disabled = false;
+                    
+                    // Limpiar formulario
+                    limpiarFormularioPaciente();
+                    
+                    // Recargar lista de pacientes y seleccionar el nuevo
+                    cargarPacientes();
+                    
+                    // Esperar a que se cargue la lista y seleccionar el nuevo paciente
+                    setTimeout(() => {
+                        const selectPaciente = document.getElementById('paciente-existente');
+                        const options = selectPaciente.options;
+                        
+                        for (let i = 0; i < options.length; i++) {
+                            if (options[i].value == result.body.id) {
+                                selectPaciente.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    }, 500);
+                } else {
+                    // Error
+                    Swal.fire({
+                        title: 'Error',
+                        text: result.body.message || 'Error al crear paciente',
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                loadingOverlay.style.display = 'none';
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error de conexión al crear el paciente',
+                    icon: 'error'
+                });
+            });
+        }
+        
+        // Limpiar formulario de paciente
+        function limpiarFormularioPaciente() {
+            document.getElementById('paciente-rut').value = '';
+            document.getElementById('paciente-nombre').value = '';
+            document.getElementById('paciente-apellido').value = '';
+            document.getElementById('paciente-fecha-nacimiento').value = '';
+            document.getElementById('paciente-edad').value = '';
+            document.getElementById('paciente-sexo').value = '';
+            document.getElementById('paciente-telefono').value = '';
+            document.getElementById('paciente-email').value = '';
+            document.getElementById('paciente-direccion').value = '';
+            document.getElementById('paciente-contacto-nombre').value = '';
+            document.getElementById('paciente-contacto-telefono').value = '';
+        }
+        
+        // Crear ficha médica
+        function crearFichaMedica() {
+            const token = localStorage.getItem('authToken');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            // Verificar si hay un paciente seleccionado o nuevo
+            let pacienteId = null;
+            
+            if (document.getElementById('form-nuevo-paciente').style.display === 'none') {
+                // Paciente existente
+                pacienteId = document.getElementById('paciente-existente').value;
+                
+                if (!pacienteId) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Debe seleccionar un paciente',
+                        icon: 'error'
+                    });
+                    return;
+                }
+            } else {
+                // Nuevo paciente, primero guardarlo
+                guardarNuevoPaciente();
+                return; // Salir de la función, se continuará después de guardar
+            }
+            
+            // Obtener datos del formulario
+            const fichaData = {
+                paciente_id: pacienteId,
+                fecha_ingreso: document.getElementById('fecha-ingreso').value,
+                motivo_consulta: document.getElementById('motivo-consulta').value,
+                profesional_deriva_id: document.getElementById('profesional-deriva').value || null,
+                prevision_salud: document.getElementById('prevision-salud').value,
+                antecedentes: {
+                    diagnostico_principal: document.getElementById('diagnostico-principal').value,
+                    diagnosticos_secundarios: document.getElementById('diagnosticos-secundarios').value,
+                    antecedentes_relevantes: document.getElementById('antecedentes-relevantes').value,
+                    alergias: document.getElementById('alergias').value,
+                    medicamentos_actuales: document.getElementById('medicamentos-actuales').value,
+                    tipo_cirugia: document.getElementById('tipo-cirugia').value,
+                    fecha_cirugia: document.getElementById('fecha-cirugia').value || null
+                }
+            };
+            
+            // Validación básica
+            if (!fichaData.fecha_ingreso || !fichaData.motivo_consulta) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Fecha de ingreso y motivo de consulta son campos requeridos',
+                    icon: 'error'
+                });
+                return;
+            }
+            
+            // Mostrar pantalla de carga
+            loadingMessage.textContent = 'Creando ficha médica...';
+            loadingOverlay.style.display = 'flex';
+            
+            // Enviar datos al servidor
+            fetch('/api/fichas', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(fichaData)
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(result => {
+                loadingOverlay.style.display = 'none';
+                
+                if (result.status === 201) {
+                    // Éxito
+                    Swal.fire({
+                        title: 'Ficha Médica Creada',
+                        text: 'La ficha médica ha sido creada exitosamente',
+                        icon: 'success',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ver Ficha',
+                        cancelButtonText: 'Volver al Listado'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Ir a ver la ficha
+                            window.location.href = `ver-ficha.html?id=${result.body.id}`;
+                        } else {
+                            // Volver al listado
+                            window.location.href = 'fichas-medicas.html';
+                        }
+                    });
+                } else {
+                    // Error
+                    Swal.fire({
+                        title: 'Error',
+                        text: result.body.message || 'Error al crear ficha médica',
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                loadingOverlay.style.display = 'none';
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error de conexión al crear la ficha médica',
+                    icon: 'error'
+                });
+            });
+        }
+        
+        // Guardar borrador (simulado)
+        function guardarBorrador() {
+            // En una implementación real, se enviaría la ficha con un estado de "Borrador"
+            // Para este ejemplo, solo se muestra un mensaje
+            Swal.fire({
+                title: 'Borrador Guardado',
+                text: 'La ficha médica ha sido guardada como borrador',
+                icon: 'success'
+            });
+        }
+    </script>
+</body>
+</html>

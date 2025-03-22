@@ -1,0 +1,598 @@
+/* 
+ * Sistema de Fichas Médicas - RenovaFit
+ * Estilos adicionales para el sistema interno
+ */
+
+/* ---------- Variables y Colores ---------- */
+:root {
+    --primary: #3498db;
+    --primary-dark: #217dbb;
+    --secondary: #5d6d7e;
+    --success: #2ecc71;
+    --info: #48c9b0;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --light: #f7f9f9;
+    --dark: #2c3e50;
+    --bypass: #3498db;
+    --manga: #2ecc71;
+    --balon: #f39c12;
+    --prevencion: #48c9b0;
+    --sidebar-width: 250px;
+    --navbar-height: 60px;
+    --sidebar-collapsed-width: 70px;
+    --transition-speed: 0.3s;
+  }
+  
+  /* ---------- Estilos Base del Sistema ---------- */
+  .sistema-page {
+    background-color: #f1f4f9;
+    min-height: 100vh;
+    font-family: 'Ubuntu', sans-serif;
+  }
+  
+  .sistema-page .navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    height: var(--navbar-height);
+    padding: 0.5rem 1rem;
+    z-index: 1030;
+  }
+  
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background-color: var(--dark);
+    color: #fff;
+    overflow-y: auto;
+    transition: width var(--transition-speed) ease, transform var(--transition-speed) ease;
+    z-index: 1020;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-header {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  
+  .user-details h5 {
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+  
+  .user-details p {
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-menu li {
+    position: relative;
+  }
+  
+  .sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .sidebar-menu li a i {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .sidebar-menu li.active a {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid var(--primary);
+  }
+  
+  .sidebar-menu li a:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .sidebar-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 10px 0;
+  }
+  
+  /* ---------- Main Content ---------- */
+  .main-content {
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    padding-top: calc(var(--navbar-height) + 20px);
+    transition: margin-left var(--transition-speed) ease;
+  }
+  
+  .page-header {
+    background-color: #fff;
+    margin: -20px -20px 20px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .page-header h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0;
+  }
+  
+  .page-header p {
+    margin-bottom: 0;
+  }
+  
+  /* ---------- Responsive Sidebar ---------- */
+  .sidebar-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border: none;
+    z-index: 1020;
+  }
+  
+  @media (max-width: 991.98px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    
+    .main-content {
+      margin-left: 0;
+    }
+    
+    .has-sidebar.sidebar-open .sidebar {
+      transform: translateX(0);
+    }
+    
+    .sidebar-toggle {
+      display: flex;
+    }
+  }
+  
+  /* ---------- Cards & Panels ---------- */
+  .card {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: none;
+    margin-bottom: 20px;
+  }
+  
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #edf2f9;
+    padding: 15px 20px;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    margin-bottom: 0;
+    font-weight: 600;
+  }
+  
+  /* ---------- Stat Cards ---------- */
+  .stats-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stats-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: #fff;
+  }
+  
+  .bg-primary {
+    background-color: var(--primary) !important;
+  }
+  
+  .bg-success {
+    background-color: var(--success) !important;
+  }
+  
+  .bg-info {
+    background-color: var(--info) !important;
+  }
+  
+  .bg-warning {
+    background-color: var(--warning) !important;
+  }
+  
+  .stats-info {
+    flex-grow: 1;
+  }
+  
+  .stats-title {
+    margin-bottom: 5px;
+    font-size: 0.875rem;
+    color: var(--secondary);
+  }
+  
+  .stats-value {
+    margin-bottom: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+  
+  .border-left-primary {
+    border-left: 4px solid var(--primary);
+  }
+  
+  .border-left-success {
+    border-left: 4px solid var(--success);
+  }
+  
+  .border-left-info {
+    border-left: 4px solid var(--info);
+  }
+  
+  .border-left-warning {
+    border-left: 4px solid var(--warning);
+  }
+  
+  /* ---------- Tables ---------- */
+  .table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  
+  .table th {
+    font-weight: 600;
+    border-top: none;
+    background-color: #f8f9fa;
+  }
+  
+  .table-info-patient {
+    margin-bottom: 0;
+  }
+  
+  .table-info-patient th {
+    background-color: rgba(52, 152, 219, 0.05);
+    font-weight: 500;
+    color: var(--secondary);
+  }
+  
+  .table-info-patient td, .table-info-patient th {
+    padding: 10px 15px;
+    border: none;
+    border-bottom: 1px solid #edf2f9;
+  }
+  
+  /* ---------- Patient Profile ---------- */
+  .patient-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .patient-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--secondary);
+    margin-right: 20px;
+    flex-shrink: 0;
+  }
+  
+  .patient-info h3 {
+    margin-bottom: 5px;
+  }
+  
+  .patient-info p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .patient-badge {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 10px;
+  }
+  
+  .patient-badge.bypass {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--bypass);
+  }
+  
+  .patient-badge.manga {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--manga);
+  }
+  
+  .patient-badge.balon {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--balon);
+  }
+  
+  .patient-badge.prevencion {
+    background-color: rgba(72, 201, 176, 0.1);
+    color: var(--prevencion);
+  }
+  
+  .last-update {
+    color: var(--secondary);
+    font-size: 0.875rem;
+  }
+  
+  /* ---------- Custom Nav Tabs ---------- */
+  .nav-tabs {
+    border-bottom: none;
+  }
+  
+  .nav-tabs .nav-link {
+    border: none;
+    border-radius: 0;
+    padding: 12px 20px;
+    font-weight: 500;
+    color: var(--secondary);
+    transition: all 0.3s ease;
+  }
+  
+  .nav-tabs .nav-link:hover {
+    color: var(--primary);
+    background-color: rgba(52, 152, 219, 0.05);
+  }
+  
+  .nav-tabs .nav-link.active {
+    color: var(--primary);
+    background-color: rgba(52, 152, 219, 0.1);
+    border-bottom: 3px solid var(--primary);
+  }
+  
+  /* ---------- Login Page ---------- */
+  .sistema-header {
+    background-color: var(--primary);
+    padding: 80px 0 50px;
+    color: #fff;
+    margin-bottom: 0;
+  }
+  
+  .sistema-header h1 {
+    margin-bottom: 20px;
+  }
+  
+  .sistema-header .divider {
+    background-color: #fff;
+  }
+  
+  .login-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin-bottom: 30px;
+  }
+  
+  .login-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .login-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-icon i {
+    font-size: 2.5rem;
+    color: var(--primary);
+  }
+  
+  .login-header h2 {
+    margin-bottom: 10px;
+    color: var(--dark);
+  }
+  
+  .login-header p {
+    color: var(--secondary);
+  }
+  
+  .login-btn {
+    padding: 12px;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  
+  .login-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #edf2f9;
+    color: var(--secondary);
+    font-size: 0.875rem;
+  }
+  
+  .forgot-password {
+    color: var(--primary);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  .toggle-password {
+    cursor: pointer;
+  }
+  
+  /* ---------- Responsive Adjustments ---------- */
+  @media (max-width: 767.98px) {
+    .page-header {
+      text-align: center;
+    }
+    
+    .breadcrumb {
+      justify-content: center !important;
+      margin-top: 10px;
+    }
+    
+    .card-header-tabs {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      flex-wrap: nowrap;
+    }
+    
+    .nav-tabs .nav-link {
+      padding: 10px 15px;
+    }
+    
+    .login-container {
+      padding: 20px;
+    }
+  }
+  
+  /* Aseguramos compatibilidad con modo oscuro del sistema */
+  @media (prefers-color-scheme: dark) {
+    .sistema-page {
+      background-color: #1a202c;
+    }
+    
+    .sistema-page .navbar,
+    .page-header,
+    .card,
+    .card-header,
+    .login-container {
+      background-color: #2d3748;
+      color: #e2e8f0;
+    }
+    
+    .table-info-patient th {
+      background-color: rgba(52, 152, 219, 0.15);
+      color: #e2e8f0;
+    }
+    
+    .table th {
+      background-color: #2d3748;
+      color: #e2e8f0;
+    }
+    
+    .stats-title {
+      color: #cbd5e0;
+    }
+    
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    .table td, .table th {
+      border-color: #4a5568;
+    }
+    
+    .table-info-patient td, .table-info-patient th {
+      border-color: #4a5568;
+    }
+    
+    .login-header h2,
+    .card-title,
+    h1, h2, h3, h4, h5, h6 {
+      color: #e2e8f0;
+    }
+    
+    .login-footer {
+      border-color: #4a5568;
+      color: #cbd5e0;
+    }
+    
+    .patient-avatar {
+      background-color: #4a5568;
+      color: #e2e8f0;
+    }
+    
+    input.form-control, 
+    textarea.form-control, 
+    select.form-control {
+      background-color: #2d3748;
+      border-color: #4a5568;
+      color: #e2e8f0;
+    }
+    
+    input.form-control:focus, 
+    textarea.form-control:focus, 
+    select.form-control:focus {
+      background-color: #2d3748;
+      color: #e2e8f0;
+    }
+    
+    .input-group-text {
+      background-color: #4a5568;
+      border-color: #4a5568;
+      color: #e2e8f0;
+    }
+  }

@@ -15,8 +15,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="style.css" rel="stylesheet">
-    <link href="sistema.css" rel="stylesheet">
+    <link href="/asset/style/style.css" rel="stylesheet">
+    <link href="/asset/style/style.css" rel="stylesheet">
+    
+    <!-- SweetAlert2 para notificaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="sistema-page">
     <!-- Navbar -->
@@ -30,21 +33,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#quienes-somos">Quiénes Somos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#servicios">Servicios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#videos">Videos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#faq">FAQ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html#contacto">Contacto</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link btn-agenda" href="agendamiento.html">Agenda tu Clase</a>
                     </li>
@@ -80,7 +68,9 @@
                             <p>Ingresa tus credenciales para acceder al sistema</p>
                         </div>
                         
-                        <form id="login-form" action="fichas-medicas.html">
+                        <form id="login-form">
+                            <div id="login-error" class="alert alert-danger mb-3" style="display: none;"></div>
+                            
                             <div class="mb-4">
                                 <label for="email" class="form-label">Correo Electrónico</label>
                                 <div class="input-group">
@@ -193,18 +183,115 @@
                 this.querySelector('i').classList.toggle('fa-eye-slash');
             });
             
-            // Validación simple del formulario
+            // Verificar si ya hay un token de sesión y redirigir
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                // Verificar validez del token con una petición al servidor
+                fetch('/api/auth/check', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = 'fichas-medicas.html';
+                    } else {
+                        // Si el token no es válido, eliminarlo
+                        localStorage.removeItem('authToken');
+                        localStorage.removeItem('userData');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error verificando autenticación:', error);
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userData');
+                });
+            }
+            
+            // Manejar envío del formulario de login
             const loginForm = document.getElementById('login-form');
+            const errorContainer = document.getElementById('login-error');
+            
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
+                const rememberMe = document.getElementById('remember-me').checked;
                 
-                // Aquí se podría implementar la validación con un backend real
-                // Para el ejemplo, simplemente redirigimos
-                window.location.href = 'fichas-medicas.html';
+                // Ocultar mensaje de error previo
+                errorContainer.style.display = 'none';
+                
+                // Mostrar indicador de carga
+                const loginBtn = document.querySelector('.login-btn');
+                const originalBtnText = loginBtn.innerHTML;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+                loginBtn.disabled = true;
+                
+                // Enviar solicitud de login al servidor
+                fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                })
+                .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                .then(result => {
+                    if (result.status === 200) {
+                        // Login exitoso
+                        const { token, user } = result.body;
+                        
+                        // Guardar token y datos de usuario
+                        localStorage.setItem('authToken', token);
+                        localStorage.setItem('userData', JSON.stringify(user));
+                        
+                        // Redirigir al sistema
+                        window.location.href = 'fichas-medicas.html';
+                    } else {
+                        // Mostrar mensaje de error
+                        errorContainer.textContent = result.body.message || 'Error al iniciar sesión. Verifica tus credenciales.';
+                        errorContainer.style.display = 'block';
+                        
+                        // Restaurar botón
+                        loginBtn.innerHTML = originalBtnText;
+                        loginBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en login:', error);
+                    errorContainer.textContent = 'Error de conexión. Por favor, intenta de nuevo más tarde.';
+                    errorContainer.style.display = 'block';
+                    
+                    // Restaurar botón
+                    loginBtn.innerHTML = originalBtnText;
+                    loginBtn.disabled = false;
+                });
+            });
+            
+            // Función para recuperar contraseña (simulado)
+            const forgotPasswordLink = document.querySelector('.forgot-password');
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                
+                if (!email) {
+                    Swal.fire({
+                        title: 'Ingresa tu email',
+                        text: 'Por favor, escribe tu correo electrónico en el formulario para recuperar tu contraseña.',
+                        icon: 'info'
+                    });
+                    return;
+                }
+                
+                // Aquí se implementaría la recuperación real de contraseña
+                Swal.fire({
+                    title: 'Recuperación de contraseña',
+                    text: `Se ha enviado un correo a ${email} con instrucciones para restablecer tu contraseña.`,
+                    icon: 'success'
+                });
             });
         });
     </script>
 </body>
-</html>
+</html>">

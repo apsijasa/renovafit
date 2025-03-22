@@ -1,0 +1,445 @@
+# Guía de Instalación - Sistema de Fichas Médicas RenovaFit
+
+Esta guía te ayudará a instalar y configurar completamente el sistema de fichas médicas para RenovaFit.
+
+## 1. Requisitos Previos
+
+Antes de comenzar, asegúrate de tener instalado:
+
+- Python 3.8 o superior
+- MySQL 8.0 o superior
+- Servidor web (Apache o Nginx)
+- Git (opcional, para clonar el repositorio)
+
+## 2. Configuración de la Base de Datos
+
+### 2.1. Crear Base de Datos y Usuario
+
+Conéctate a MySQL:
+
+```bash
+mysql -u root -p
+```
+
+Ejecuta los siguientes comandos SQL:
+
+```sql
+CREATE DATABASE renovafit_medical CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'renovafit_user'@'localhost' IDENTIFIED BY 'secure_password_here';
+GRANT ALL PRIVILEGES ON renovafit_medical.* TO 'renovafit_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+> **IMPORTANTE**: Cambia `'secure_password_here'` por una contraseña segura.
+
+### 2.2. Importar el Esquema
+
+```bash
+mysql -u renovafit_user -p renovafit_medical < db/schema.sql
+```
+
+## 3. Instalación del Backend (Python/Flask)
+
+### 3.1. Clonar el Repositorio (opcional)
+
+```bash
+git clone https://github.com/tu-usuario/renovafit-sistema.git
+cd renovafit-sistema
+```
+
+### 3.2. Crear Entorno Virtual
+
+```bash
+cd backend
+python -m venv venv
+```
+
+Activar el entorno virtual:
+
+- En Linux/Mac:
+  ```bash
+  source venv/bin/activate
+  ```
+- En Windows:
+  ```bash
+  venv\Scripts\activate
+  ```
+
+### 3.3. Instalar Dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3.4. Configurar Variables de Entorno
+
+Copia el archivo `.env.example` a `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Edita el archivo `.env` con tus configuraciones:
+
+```
+# Configuración de la aplicación Flask
+SECRET_KEY=tu_clave_secreta_aqui_cambiame
+FLASK_APP=app.py
+FLASK_ENV=production
+
+# Configuración de la base de datos
+DB_HOST=localhost
+DB_USER=renovafit_user
+DB_PASSWORD=secure_password_here
+DB_NAME=renovafit_medical
+
+# Configuración JWT
+JWT_EXPIRATION_DELTA=7200  # 2 horas en segundos
+
+# Configuración de carpetas
+UPLOAD_FOLDER=uploads
+```
+
+> **IMPORTANTE**: Cambia `SECRET_KEY` por una cadena aleatoria de caracteres y `DB_PASSWORD` por la contraseña que estableciste para el usuario MySQL.
+
+### 3.5. Probar la Aplicación
+
+Para probar si la instalación funciona correctamente:
+
+```bash
+flask run --host=0.0.0.0 --port=5000
+```
+
+Deberías ver un mensaje indicando que el servidor está ejecutándose en `http://0.0.0.0:5000/`.
+
+## 4. Configuración del Servidor Web
+
+### 4.1. Configuración para Producción con Gunicorn
+
+Instalar Gunicorn:
+
+```bash
+pip install gunicorn
+```
+
+Crear un archivo de servicio systemd para que la aplicación se inicie automáticamente:
+
+```bash
+sudo nano /etc/systemd/system/renovafit-api.service
+```
+
+Agrega el siguiente contenido:
+
+```ini
+[Unit]
+Description=RenovaFit API Service
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/ruta/a/renovafit-sistema/backend
+ExecStart=/ruta/a/renovafit-sistema/backend/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Asegúrate de ajustar las rutas según tu instalación.
+
+Habilitar e iniciar el servicio:
+
+```bash
+sudo systemctl enable renovafit-api
+sudo systemctl start renovafit-api
+```
+
+### 4.2. Configuración de Apache
+
+Instalar el módulo proxy:
+
+```bash
+sudo apt-get install libapache2-mod-proxy-html libxml2-dev
+sudo a2enmod proxy proxy_http
+```
+
+Crear una configuración para el sitio:
+
+```bash
+sudo nano /etc/apache2/sites-available/renovafit.conf
+```
+
+Agrega la siguiente configuración:
+
+```apache
+<VirtualHost *:80>
+    ServerName sistema.renovafit.cl
+    ServerAdmin webmaster@renovafit.cl
+    DocumentRoot /ruta/a/renovafit-sistema/frontend
+
+    # Proxy para la API
+    ProxyPass /api http://localhost:5000/api
+    ProxyPassReverse /api http://localhost:5000/api
+    
+    <Directory /ruta/a/renovafit-sistema/frontend>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/renovafit-error.log
+    CustomLog ${APACHE_LOG_DIR}/renovafit-access.log combined
+</VirtualHost>
+```
+
+Habilitar el sitio y reiniciar Apache:
+
+```bash
+sudo a2ensite renovafit.conf
+sudo systemctl reload apache2
+```
+
+### 4.3. Configuración de Nginx
+
+```bash
+sudo nano /etc/nginx/sites-available/renovafit
+```
+
+Agrega la siguiente configuración:
+
+```nginx
+server {
+    listen 80;
+    server_name sistema.renovafit.cl;
+    
+    root /ruta/a/renovafit-sistema/frontend;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    location /api {
+        proxy_pass http://localhost:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    error_log /var/log/nginx/renovafit-error.log;
+    access_log /var/log/nginx/renovafit-access.log;
+}
+```
+
+Habilitar el sitio y reiniciar Nginx:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/renovafit /etc/nginx/sites-enabled/
+sudo systemctl reload nginx
+```
+
+## 5. Seguridad
+
+### 5.1. Configurar HTTPS (Recomendado)
+
+Para una implementación en producción, es altamente recomendable configurar HTTPS utilizando Let's Encrypt:
+
+```bash
+sudo apt-get install certbot
+# Para Apache
+sudo apt-get install python3-certbot-apache
+sudo certbot --apache -d sistema.renovafit.cl
+
+# Para Nginx
+sudo apt-get install python3-certbot-nginx
+sudo certbot --nginx -d sistema.renovafit.cl
+```
+
+### 5.2. Permisos de Archivos
+
+Asegurar los permisos correctos:
+
+```bash
+# Frontend
+sudo chown -R www-data:www-data /ruta/a/renovafit-sistema/frontend
+sudo chmod -R 755 /ruta/a/renovafit-sistema/frontend
+
+# Backend
+sudo chown -R www-data:www-data /ruta/a/renovafit-sistema/backend
+sudo chmod -R 750 /ruta/a/renovafit-sistema/backend
+```
+
+## 6. Primer Acceso
+
+Una vez que el sistema esté funcionando, puedes acceder con los siguientes datos:
+
+- URL: http://sistema.renovafit.cl o la IP/dominio configurado
+- Email: juan.perez@renovafit.cl
+- Contraseña: password123
+
+**IMPORTANTE**: Cambia la contraseña inmediatamente después del primer inicio de sesión.
+
+## 7. Respaldos
+
+### 7.1. Configurar Respaldos Automáticos
+
+Crear un script para respaldar la base de datos:
+
+```bash
+sudo nano /usr/local/bin/backup-renovafit.sh
+```
+
+Agrega el siguiente contenido:
+
+```bash
+#!/bin/bash
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+BACKUP_DIR="/ruta/a/respaldos"
+MYSQL_USER="renovafit_user"
+MYSQL_PASSWORD="secure_password_here"
+MYSQL_DATABASE="renovafit_medical"
+
+# Crear directorio si no existe
+mkdir -p $BACKUP_DIR
+
+# Realizar backup
+mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE | gzip > $BACKUP_DIR/renovafit_db_$TIMESTAMP.sql.gz
+
+# Conservar solo los últimos 30 respaldos
+find $BACKUP_DIR -name "renovafit_db_*.sql.gz" -type f -mtime +30 -delete
+```
+
+Dar permisos de ejecución:
+
+```bash
+sudo chmod +x /usr/local/bin/backup-renovafit.sh
+```
+
+Programar con cron:
+
+```bash
+sudo crontab -e
+```
+
+Agregar la línea para ejecutarlo diariamente a las 2 AM:
+
+```
+0 2 * * * /usr/local/bin/backup-renovafit.sh
+```
+
+## 8. Mantenimiento
+
+### 8.1. Registros (Logs)
+
+Verificar registros de la aplicación:
+
+```bash
+# Para ver los logs del servicio Flask con systemd
+sudo journalctl -u renovafit-api
+
+# Logs de Apache
+sudo tail -f /var/log/apache2/renovafit-error.log
+sudo tail -f /var/log/apache2/renovafit-access.log
+
+# Logs de Nginx
+sudo tail -f /var/log/nginx/renovafit-error.log
+sudo tail -f /var/log/nginx/renovafit-access.log
+```
+
+### 8.2. Rotación de Logs
+
+Los logs configurados anteriormente se rotarán automáticamente gracias a `logrotate`, que normalmente viene configurado por defecto en la mayoría de distribuciones Linux.
+
+### 8.3. Monitoreo
+
+Para monitoreo básico del servicio:
+
+```bash
+# Verificar estado del servicio
+sudo systemctl status renovafit-api
+
+# Ver uso de recursos
+htop
+```
+
+Para un monitoreo más avanzado, considera implementar soluciones como Prometheus + Grafana o ELK Stack.
+
+## 9. Actualización del Sistema
+
+### 9.1. Actualizar Frontend
+
+```bash
+cd /ruta/a/renovafit-sistema
+git pull  # Si usas git
+
+# O simplemente actualiza los archivos manualmente
+```
+
+### 9.2. Actualizar Backend
+
+```bash
+cd /ruta/a/renovafit-sistema/backend
+source venv/bin/activate
+git pull  # Si usas git
+
+# Instalar posibles nuevas dependencias
+pip install -r requirements.txt
+
+# Reiniciar el servicio
+sudo systemctl restart renovafit-api
+```
+
+### 9.3. Actualizar Base de Datos
+
+Si hay cambios en el esquema de la base de datos, deberías recibir instrucciones específicas para cada actualización. Generalmente, se proporcionará un script SQL que debes ejecutar:
+
+```bash
+mysql -u renovafit_user -p renovafit_medical < actualizacion.sql
+```
+
+> **Importante**: Siempre haz un respaldo antes de actualizar la base de datos.
+
+## 10. Solución de Problemas
+
+### 10.1. API no funciona
+
+Verifica si el servicio está ejecutándose:
+```bash
+sudo systemctl status renovafit-api
+```
+
+Revisa los logs para encontrar errores:
+```bash
+sudo journalctl -u renovafit-api -n 50
+```
+
+### 10.2. Problemas con la Base de Datos
+
+Prueba la conexión a la base de datos:
+```bash
+mysql -u renovafit_user -p renovafit_medical -e "SELECT 1;"
+```
+
+Si no puedes conectarte:
+- Verifica que MySQL esté ejecutándose: `sudo systemctl status mysql`
+- Confirma las credenciales en el archivo `.env`
+- Asegúrate de que el usuario tiene los permisos correctos
+
+### 10.3. Problemas de Servidor Web
+
+Si el frontend no se carga correctamente:
+- Verifica los logs de Apache/Nginx
+- Asegúrate de que los archivos estén en la ubicación correcta
+- Confirma que los permisos de archivos sean correctos
+
+## 11. Contacto y Soporte
+
+Si necesitas ayuda adicional, contacta a:
+- Email: soporte@renovafit.cl
+- Teléfono: +56 9 1234 5678
+
+---
+
+Esta guía de instalación ha sido preparada para RenovaFit. Asegúrate de mantener actualizado el sistema y realizar respaldos regulares para garantizar la seguridad de los datos.
