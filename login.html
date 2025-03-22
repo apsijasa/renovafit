@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Profesional - RenovaFit</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Ubuntu -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+    <link href="sistema.css" rel="stylesheet">
+</head>
+<body class="sistema-page">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="renovafit-logo">RenovaFit</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#quienes-somos">Quiénes Somos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#videos">Videos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-agenda" href="agendamiento.html">Agenda tu Clase</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header de login -->
+    <header class="sistema-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1>Sistema de Fichas Médicas</h1>
+                    <div class="divider"></div>
+                    <p>Acceso exclusivo para profesionales de RenovaFit</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección de Login -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mx-auto">
+                    <div class="login-container">
+                        <div class="login-header">
+                            <div class="login-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <h2>Iniciar Sesión</h2>
+                            <p>Ingresa tus credenciales para acceder al sistema</p>
+                        </div>
+                        
+                        <form id="login-form" action="fichas-medicas.html">
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember-me">
+                                    <label class="form-check-label" for="remember-me">
+                                        Recordarme
+                                    </label>
+                                </div>
+                                <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 login-btn">
+                                <i class="fas fa-sign-in-alt me-2"></i> Ingresar
+                            </button>
+                        </form>
+                        
+                        <div class="login-footer">
+                            <p>Si tienes problemas para acceder, contacta al administrador del sistema.</p>
+                            <p><i class="fas fa-envelope me-2"></i> soporte@renovafit.cl</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3>RenovaFit</h3>
+                    <p>Especialistas en kinesiología y entrenamiento físico para personas con cirugía bariátrica, bypass gástrico o balón gástrico.</p>
+                    <p>© 2025 RenovaFit. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#quienes-somos">Quiénes Somos</a></li>
+                        <li><a href="index.html#servicios">Servicios</a></li>
+                        <li><a href="index.html#videos">Videos</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                        <li><a href="index.html#contacto">Contacto</a></li>
+                        <li><a href="agendamiento.html">Agenda tu Clase</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h3>Contacto Directo</h3>
+                    <div class="contact-info-footer">
+                        <p><i class="fas fa-map-marker-alt"></i> Av. Ejemplo 1234, Santiago, Chile</p>
+                        <p><i class="fas fa-phone-alt"></i> +56 9 1234 5678</p>
+                        <p><i class="fas fa-envelope"></i> contacto@renovafit.cl</p>
+                    </div>
+                    <div class="social-links mt-3">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Añadir padding al body igual a la altura del navbar
+            const navbar = document.querySelector('.navbar');
+            document.body.style.paddingTop = navbar.offsetHeight + 'px';
+            
+            // Cambiar estilo del navbar al hacer scroll
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+            });
+            
+            // Toggle para mostrar/ocultar contraseña
+            const togglePassword = document.querySelector('.toggle-password');
+            const passwordInput = document.querySelector('#password');
+            
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+            
+            // Validación simple del formulario
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Aquí se podría implementar la validación con un backend real
+                // Para el ejemplo, simplemente redirigimos
+                window.location.href = 'fichas-medicas.html';
+            });
+        });
+    </script>
+</body>
+</html>
