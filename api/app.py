@@ -1022,5 +1022,12 @@ def get_estadisticas(current_user):
         'distribucion_cirugias': distribucion_cirugias
     })
 
+@app.route('/')
+def index():
+    return jsonify({
+        'message': 'RenovaFit API - Sistema de Fichas Médicas',
+        'status': 'online'
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)
