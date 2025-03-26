@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ver Ficha Médica - RenovaFit</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts - Ubuntu -->
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- SweetAlert2 para notificaciones -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- Custom CSS -->
+  <link href="/asset/style/style.css" rel="stylesheet">
+  <link href="/asset/style/sistema.css" rel="stylesheet">
+</head>
+<body class="sistema-page has-sidebar">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <span class="renovafit-logo">RenovaFit</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-user-circle me-2"></i><span id="usuario-nombre">Usuario</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Mi Perfil</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#" id="cerrar-sesion"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="user-info">
+        <div class="user-avatar">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <div class="user-details">
+          <h5 id="sidebar-nombre">Usuario</h5>
+          <p id="sidebar-especialidad">Especialidad</p>
+        </div>
+      </div>
+    </div>
+    <ul class="sidebar-menu">
+      <li class="active">
+        <a href="fichas-medicas.html"><i class="fas fa-folder-open"></i> Fichas Médicas</a>
+      </li>
+      <li>
+        <a href="#"><i class="fas fa-calendar-alt"></i> Agenda</a>
+      </li>
+      <li>
+        <a href="#"><i class="fas fa-users"></i> Pacientes</a>
+      </li>
+      <li>
+        <a href="#"><i class="fas fa-chart-line"></i> Estadísticas</a>
+      </li>
+      <li>
+        <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+      </li>
+      <li class="sidebar-divider"></li>
+      <li>
+        <a href="#" id="sidebar-cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+      </li>
+    </ul>
+  </aside>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h1><i class="fas fa-notes-medical me-2"></i>Detalle de Ficha Médica</h1>
+          </div>
+          <div class="col-md-6">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb justify-content-md-end">
+                <li class="breadcrumb-item"><a href="fichas-medicas.html">Fichas Médicas</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detalle Ficha</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Content Area -->
+    <div class="container-fluid">
+      <!-- Error message if no ID provided -->
+      <div id="no-id-error" class="alert alert-danger" style="display: none;">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span>No se ha especificado una ficha médica para ver. Por favor, vuelva al listado de fichas e intente nuevamente.</span>
+        <div class="mt-3">
+          <a href="fichas-medicas.html" class="btn btn-primary">
+            <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+          </a>
+        </div>
+      </div>
+      
+      <!-- Loading indicator -->
+      <div id="loading-indicator" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2">Cargando datos de la ficha médica...</p>
+      </div>
+      
+      <!-- Main Ficha Content (hidden until loaded) -->
+      <div id="ficha-content" style="display: none;">
+        <!-- Información del Paciente -->
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">Información del Paciente</h5>
+            <span class="badge" id="estado-ficha">Estado</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <h6>Datos Personales</h6>
+                <p class="mb-1"><strong>Nombre:</strong> <span id="paciente-nombre-completo">-</span></p>
+                <p class="mb-1"><strong>RUT:</strong> <span id="paciente-rut">-</span></p>
+                <p class="mb-1"><strong>Fecha de Nacimiento:</strong> <span id="paciente-fecha-nacimiento">-</span></p>
+                <p class="mb-1"><strong>Edad:</strong> <span id="paciente-edad">-</span></p>
+                <p class="mb-1"><strong>Sexo:</strong> <span id="paciente-sexo">-</span></p>
+              </div>
+              <div class="col-md-4">
+                <h6>Contacto</h6>
+                <p class="mb-1"><strong>Teléfono:</strong> <span id="paciente-telefono">-</span></p>
+                <p class="mb-1"><strong>Email:</strong> <span id="paciente-email">-</span></p>
+                <p class="mb-1"><strong>Dirección:</strong> <span id="paciente-direccion">-</span></p>
+              </div>
+              <div class="col-md-4">
+                <h6>Contacto de Emergencia</h6>
+                <p class="mb-1"><strong>Nombre:</strong> <span id="paciente-contacto-nombre">-</span></p>
+                <p class="mb-1"><strong>Teléfono:</strong> <span id="paciente-contacto-telefono">-</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Información Administrativa de la Ficha -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Datos Administrativos</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <p class="mb-1"><strong>Fecha de Ingreso:</strong> <span id="ficha-fecha-ingreso">-</span></p>
+                <p class="mb-1"><strong>Motivo de Consulta:</strong> <span id="ficha-motivo-consulta">-</span></p>
+              </div>
+              <div class="col-md-4">
+                <p class="mb-1"><strong>Profesional que Deriva:</strong> <span id="ficha-profesional-deriva">-</span></p>
+                <p class="mb-1"><strong>Previsión de Salud:</strong> <span id="ficha-prevision-salud">-</span></p>
+              </div>
+              <div class="col-md-4">
+                <p class="mb-1"><strong>Última Actualización:</strong> <span id="ficha-ultima-actualizacion">-</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pestañas de Contenido -->
+        <div class="card mb-4">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="ficha-tabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="antecedentes-tab" data-bs-toggle="tab" data-bs-target="#antecedentes" type="button" role="tab" aria-controls="antecedentes" aria-selected="true">
+                  <i class="fas fa-file-medical me-2"></i>Antecedentes
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="evaluaciones-tab" data-bs-toggle="tab" data-bs-target="#evaluaciones" type="button" role="tab" aria-controls="evaluaciones" aria-selected="false">
+                  <i class="fas fa-clipboard-list me-2"></i>Evaluaciones
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="notas-tab" data-bs-toggle="tab" data-bs-target="#notas" type="button" role="tab" aria-controls="notas" aria-selected="false">
+                  <i class="fas fa-notes-medical me-2"></i>Notas de Evolución
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="sesiones-tab" data-bs-toggle="tab" data-bs-target="#sesiones" type="button" role="tab" aria-controls="sesiones" aria-selected="false">
+                  <i class="fas fa-dumbbell me-2"></i>Sesiones
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content" id="ficha-tabs-content">
+              <!-- Antecedentes Tab -->
+              <div class="tab-pane fade show active" id="antecedentes" role="tabpanel" aria-labelledby="antecedentes-tab">
+                <div class="row" id="antecedentes-container">
+                  <!-- Se cargarán dinámicamente los antecedentes médicos -->
+                </div>
+              </div>
+              <!-- Evaluaciones Tab -->
+              <div class="tab-pane fade" id="evaluaciones" role="tabpanel" aria-labelledby="evaluaciones-tab">
+                <div class="row" id="evaluaciones-container">
+                  <!-- Se cargarán dinámicamente las evaluaciones -->
+                </div>
+              </div>
+              <!-- Notas de Evolución Tab -->
+              <div class="tab-pane fade" id="notas" role="tabpanel" aria-labelledby="notas-tab">
+                <div class="timeline" id="notas-container">
+                  <!-- Se cargarán dinámicamente las notas de evolución -->
+                </div>
+              </div>
+              <!-- Sesiones Tab -->
+              <div class="tab-pane fade" id="sesiones" role="tabpanel" aria-labelledby="sesiones-tab">
+                <div class="row" id="sesiones-container">
+                  <!-- Se cargarán dinámicamente las sesiones de entrenamiento -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Acciones -->
+        <div class="card mb-4">
+          <div class="card-body d-flex justify-content-between">
+            <div>
+              <a href="fichas-medicas.html" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+              </a>
+              <a href="#" class="btn btn-primary me-2" id="btn-editar-ficha">
+                <i class="fas fa-edit me-2"></i>Editar Ficha
+              </a>
+            </div>
+            <div>
+              <button class="btn btn-danger" id="btn-eliminar-ficha">
+                <i class="fas fa-trash-alt me-2"></i>Eliminar Ficha
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+    <div class="text-center bg-white p-4 rounded">
+      <div class="spinner-border text-primary mb-3" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="m-0" id="loading-message">Procesando...</p>
+    </div>
+  </div>
+  
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ajustar padding del main-content según el alto del navbar
+      const navbar = document.querySelector('.navbar');
+      const mainContent = document.querySelector('.main-content');
+      mainContent.style.paddingTop = navbar.offsetHeight + 'px';
+      
+      // Toggle sidebar para móviles
+      const sidebarToggle = document.createElement('button');
+      sidebarToggle.className = 'btn btn-primary sidebar-toggle';
+      sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      document.body.appendChild(sidebarToggle);
+      sidebarToggle.addEventListener('click', () => {
+        document.body.classList.toggle('sidebar-open');
+      });
+      document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth < 992) {
+            document.body.classList.remove('sidebar-open');
+          }
+        });
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 992) document.body.classList.remove('sidebar-open');
+      });
+      
+      // Manejo de autenticación
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Cargar datos del usuario en navbar y sidebar
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      if (userData) {
+        document.getElementById('usuario-nombre').textContent = userData.nombre + ' ' + userData.apellido;
+        document.getElementById('sidebar-nombre').textContent = userData.nombre + ' ' + userData.apellido;
+        document.getElementById('sidebar-especialidad').textContent = userData.especialidad;
+      }
+      
+      // Verificar token con la API
+      fetch('/api/auth/check', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Token inválido');
+        return response.json();
+      })
+      .then(() => {
+        cargarFicha();
+      })
+      .catch(error => {
+        console.error('Error de autenticación:', error);
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        window.location.href = 'login.html';
+      });
+      
+      // Función para cargar datos de la ficha médica
+      function cargarFicha() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const fichaId = urlParams.get('id');
+        if (!fichaId) {
+          document.getElementById('no-id-error').style.display = 'block';
+          document.getElementById('loading-indicator').style.display = 'none';
+          return;
+        }
+        
+        fetch(`/api/fichas/${fichaId}`, {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Rellenar información del paciente
+          const paciente = data.paciente;
+          document.getElementById('paciente-nombre-completo').textContent = paciente.nombre + ' ' + paciente.apellido;
+          document.getElementById('paciente-rut').textContent = paciente.rut;
+          document.getElementById('paciente-fecha-nacimiento').textContent = paciente.fecha_nacimiento;
+          document.getElementById('paciente-edad').textContent = paciente.edad;
+          document.getElementById('paciente-sexo').textContent = paciente.sexo;
+          document.getElementById('paciente-telefono').textContent = paciente.telefono;
+          document.getElementById('paciente-email').textContent = paciente.email;
+          document.getElementById('paciente-direccion').textContent = paciente.direccion;
+          document.getElementById('paciente-contacto-nombre').textContent = paciente.contacto_emergencia.nombre;
+          document.getElementById('paciente-contacto-telefono').textContent = paciente.contacto_emergencia.telefono;
+          
+          // Rellenar datos administrativos
+          const admin = data.administrativo;
+          document.getElementById('ficha-fecha-ingreso').textContent = admin.fecha_ingreso;
+          document.getElementById('ficha-motivo-consulta').textContent = admin.motivo_consulta;
+          document.getElementById('ficha-profesional-deriva').textContent = admin.profesional_deriva;
+          document.getElementById('ficha-prevision-salud').textContent = admin.prevision_salud;
+          document.getElementById('ficha-ultima-actualizacion').textContent = admin.ultima_actualizacion;
+          document.getElementById('estado-ficha').textContent = admin.estado;
+          
+          // Aquí puedes agregar funciones para renderizar las secciones de antecedentes, evaluaciones, notas y sesiones.
+          // Por ejemplo:
+          // renderItems('antecedentes-container', data.antecedentes);
+          // renderItems('evaluaciones-container', data.evaluaciones);
+          // renderItems('notas-container', data.notas);
+          // renderItems('sesiones-container', data.sesiones);
+          
+          // Mostrar contenido y ocultar indicadores de carga
+          document.getElementById('ficha-content').style.display = 'block';
+          document.getElementById('loading-indicator').style.display = 'none';
+        })
+        .catch(error => {
+          console.error('Error al cargar la ficha:', error);
+          Swal.fire('Error', 'No se pudo cargar la ficha médica.', 'error');
+          document.getElementById('loading-indicator').style.display = 'none';
+        });
+      }
+      
+      // Acción para editar la ficha
+      document.getElementById('btn-editar-ficha').addEventListener('click', () => {
+        const fichaId = new URLSearchParams(window.location.search).get('id');
+        window.location.href = `editar-ficha.html?id=${fichaId}`;
+      });
+      
+      // Acción para eliminar la ficha
+      document.getElementById('btn-eliminar-ficha').addEventListener('click', () => {
+        const fichaId = new URLSearchParams(window.location.search).get('id');
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "Esta acción eliminará la ficha médica.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`/api/fichas/${fichaId}`, {
+              method: 'DELETE',
+              headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => {
+              if (response.ok) {
+                Swal.fire('Eliminada', 'La ficha médica ha sido eliminada.', 'success')
+                  .then(() => window.location.href = 'fichas-medicas.html');
+              } else {
+                throw new Error('Error al eliminar');
+              }
+            })
+            .catch(error => {
+              console.error('Error al eliminar la ficha:', error);
+              Swal.fire('Error', 'No se pudo eliminar la ficha médica.', 'error');
+            });
+          }
+        });
+      });
+      
+      // Manejo de cierre de sesión
+      const cerrarSesion = () => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        window.location.href = 'login.html';
+      };
+      document.getElementById('cerrar-sesion').addEventListener('click', cerrarSesion);
+      document.getElementById('sidebar-cerrar-sesion').addEventListener('click', cerrarSesion);
+    });
+    
+    // (Opcional) Función para renderizar items de una lista en un contenedor
+    function renderItems(containerId, items) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (!items || items.length === 0) {
+        container.innerHTML = '<p class="text-muted">No hay registros.</p>';
+        return;
+      }
+      items.forEach(item => {
+        // Ajusta la estructura según el contenido de cada sección
+        const div = document.createElement('div');
+        div.className = 'col-md-12 mb-3';
+        div.innerHTML = `<div class="card p-3">
+                           <p>${item.detalle}</p>
+                         </div>`;
+        container.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
