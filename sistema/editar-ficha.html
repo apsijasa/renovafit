@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Ficha Médica - RenovaFit</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Ubuntu -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Flatpickr - Date Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <!-- SweetAlert2 para notificaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Custom CSS -->
+    <link href="/asset/style/style.css" rel="stylesheet">
+    <link href="/asset/style/sistema.css" rel="stylesheet">
+</head>
+<body class="sistema-page has-sidebar">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <span class="renovafit-logo">RenovaFit</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2"></i><span id="usuario-nombre">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="cerrar-sesion"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="user-details">
+                    <h5 id="sidebar-nombre">Usuario</h5>
+                    <p id="sidebar-especialidad">Especialidad</p>
+                </div>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a href="fichas-medicas.html"><i class="fas fa-folder-open"></i> Fichas Médicas</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-calendar-alt"></i> Agenda</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-users"></i> Pacientes</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-chart-line"></i> Estadísticas</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+            </li>
+            <li class="sidebar-divider"></li>
+            <li>
+                <a href="#" id="sidebar-cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1><i class="fas fa-edit me-2"></i>Editar Ficha Médica</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-md-end">
+                                <li class="breadcrumb-item"><a href="fichas-medicas.html">Fichas Médicas</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Editar Ficha</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="container-fluid">
+            <!-- Error message if no ID provided -->
+            <div id="no-id-error" class="alert alert-danger" style="display: none;">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <span>No se ha especificado una ficha médica para editar. Por favor, vuelva al listado de fichas e intente nuevamente.</span>
+                <div class="mt-3">
+                    <a href="fichas-medicas.html" class="btn btn-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+                    </a>
+                </div>
+            </div>
+
+            <!-- Loading indicator -->
+            <div id="loading-indicator" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando datos de la ficha médica...</p>
+            </div>
+            
+            <!-- Form Card (hidden until loaded) -->
+            <div class="card mb-4" id="ficha-card" style="display: none;">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Datos de la Ficha Médica</h5>
+                    <span class="badge" id="estado-ficha">Estado</span>
+                </div>
+                <div class="card-body">
+                    <form id="ficha-form">
+                        <!-- Campo oculto para el ID -->
+                        <input type="hidden" id="ficha-id">
+                        
+                        <!-- Información del Paciente (readonly) -->
+                        <div class="form-section">
+                            <h4>Información del Paciente</h4>
+                            
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Para modificar los datos del paciente, utilice la sección de "Pacientes" del sistema.
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">RUT / ID</label>
+                                    <input type="text" class="form-control" id="paciente-rut" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="paciente-nombre" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="paciente-apellido" readonly>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Fecha de Nacimiento</label>
+                                    <input type="text" class="form-control" id="paciente-fecha-nacimiento" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Edad</label>
+                                    <input type="text" class="form-control" id="paciente-edad" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Sexo</label>
+                                    <input type="text" class="form-control" id="paciente-sexo" readonly>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Teléfono</label>
+                                    <input type="text" class="form-control" id="paciente-telefono" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="paciente-email" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Datos administrativos -->
+                        <div class="form-section">
+                            <h4>Datos Administrativos</h4>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="fecha-ingreso" class="form-label">Fecha de Ingreso</label>
+                                    <input type="date" class="form-control" id="fecha-ingreso" required>
+                                </div>
+                                <div class="col-md-8">
+                                    <label for="motivo-consulta" class="form-label">Motivo de Consulta / Derivación</label>
+                                    <input type="text" class="form-control" id="motivo-consulta" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="profesional-deriva" class="form-label">Profesional que Deriva (si aplica)</label>
+                                    <select class="form-select" id="profesional-deriva">
+                                        <option value="">Seleccione</option>
+                                        <!-- Se cargará dinámicamente -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="prevision-salud" class="form-label">Previsión de Salud</label>
+                                    <input type="text" class="form-control" id="prevision-salud">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Antecedentes médicos -->
+                        <div class="form-section">
+                            <h4>Antecedentes Médicos</h4>
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Actualizar esta información creará un nuevo registro de antecedentes médicos en la ficha, manteniendo el historial anterior.
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="diagnostico-principal" class="form-label">Diagnóstico Principal</label>
+                                <input type="text" class="form-control" id="diagnostico-principal">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="diagnosticos-secundarios" class="form-label">Diagnósticos Secundarios</label>
+                                <textarea class="form-control" id="diagnosticos-secundarios" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="antecedentes-relevantes" class="form-label">Antecedentes Médicos Relevantes</label>
+                                <textarea class="form-control" id="antecedentes-relevantes" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="alergias" class="form-label">Alergias</label>
+                                <input type="text" class="form-control" id="alergias">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="medicamentos-actuales" class="form-label">Medicamentos Actuales</label>
+                                <textarea class="form-control" id="medicamentos-actuales" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="tipo-cirugia" class="form-label">Tipo de Cirugía</label>
+                                    <select class="form-select" id="tipo-cirugia">
+                                        <option value="">Seleccione</option>
+                                        <option value="by_pass">Bypass Gástrico</option>
+                                        <option value="sleeve">Manga Gástrica</option>
+                                        <option value="balon">Balón Gástrico</option>
+                                        <option value="otro">Otro</option>
+                                        <option value="ninguna">Ninguna (Prevención)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fecha-cirugia" class="form-label">Fecha de Cirugía (si aplica)</label>
+                                    <input type="date" class="form-control" id="fecha-cirugia">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Historial de Antecedentes -->
+                        <div class="form-section">
+                            <h4>Historial de Antecedentes Médicos</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover" id="tabla-antecedentes">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Diagnóstico Principal</th>
+                                            <th>Tipo Cirugía</th>
+                                            <th>Profesional</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabla-antecedentes-body">
+                                        <!-- Se cargará dinámicamente -->
+                                    </tbody>
+                                </table>
+                                <div id="no-antecedentes" class="text-center py-3" style="display: none;">
+                                    <p class="text-muted">No hay registros de antecedentes previos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de acción -->
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <a href="ver-ficha.html" id="btn-ver-ficha" class="btn btn-info me-2">
+                                    <i class="fas fa-eye me-2"></i>Ver Ficha Completa
+                                </a>
+                                <a href="fichas-medicas.html" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Volver
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Guardar Cambios
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Historia Clínica Card -->
+            <div class="card mb-4" id="historia-card" style="display: none;">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Historia Clínica Reciente</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="historiaTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="evaluaciones-tab" data-bs-toggle="tab" data-bs-target="#evaluaciones" type="button" role="tab" aria-controls="evaluaciones" aria-selected="true">Evaluaciones</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="notas-tab" data-bs-toggle="tab" data-bs-target="#notas" type="button" role="tab" aria-controls="notas" aria-selected="false">Notas de Evolución</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-3" id="historiaTabContent">
+                        <div class="tab-pane fade show active" id="evaluaciones" role="tabpanel" aria-labelledby="evaluaciones-tab">
+                            <div id="evaluaciones-container">
+                                <!-- Se cargará dinámicamente -->
+                            </div>
+                            <div id="no-evaluaciones" class="text-center py-3" style="display: none;">
+                                <p class="text-muted">No hay evaluaciones registradas.</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="notas" role="tabpanel" aria-labelledby="notas-tab">
+                            <div id="notas-container">
+                                <!-- Se cargará dinámicamente -->
+                            </div>
+                            <div id="no-notas" class="text-center py-3" style="display: none;">
+                                <p class="text-muted">No hay notas de evolución registradas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+        <div class="text-center bg-white p-4 rounded">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="m-0" id="loading-message">Procesando...</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Variables globales
+        let fichaId = null;
+        let fichaData = null;
+        
+        // Verificación de autenticación y carga inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener ID de ficha desde la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            fichaId = urlParams.get('id');
+            
+            if (!fichaId) {
+                // Mostrar error si no hay ID
+                document.getElementById('no-id-error').style.display = 'block';
+                document.getElementById('loading-indicator').style.display = 'none';
+                return;
+            }
+            
+            // Verificar si hay un token guardado
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                // Redirigir al login si no hay token
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Cargar datos del usuario
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData) {
+                document.getElementById('usuario-nombre').textContent = `${userData.nombre} ${userData.apellido}`;
+                document.getElementById('sidebar-nombre').textContent = `${userData.nombre} ${userData.apellido}`;
+                document.getElementById('sidebar-especialidad').textContent = userData.especialidad;
+            }
+            
+            // Verificar validez del token
+            fetch('/api/auth/check', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Token inválido');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Token válido, cargar los datos de la ficha
+                cargarFicha();
+                cargarProfesionales();
+            })
+            .catch(error => {
+                console.error('Error de autenticación:', error);
+                // Token inválido, redirigir al login
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                window.location.href = 'login.html';
+            });
+            
+            // Manejar cierre de sesión
+            const cerrarSesion = function() {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                window.location.href = 'login.html';
+            };
+            
+            document.getElementById('cerrar-sesion').addEventListener('click', cerrarSesion);
+            document.getElementById('sidebar-cerrar-sesion').addEventListener('click', cerrarSesion);
+            
+            // Ajustar navbar y sidebar
+            const navbar = document.querySelector('.navbar');
+            const mainContent = document.querySelector('.main-content');
+            
+            mainContent.style.paddingTop = navbar.offsetHeight + 'px';
+            
+            // Toggle sidebar en dispositivos móviles
+            const sidebarToggle = document.createElement('button');
+            sidebarToggle.className = 'btn btn-primary sidebar-toggle';
+            sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            document.body.appendChild(sidebarToggle);
+            
+            sidebarToggle.addEventListener('click', function() {
+                document.body.classList.toggle('sidebar-open');
+            });
+            
+            // Cerrar sidebar al hacer clic en un enlace (en móviles)
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 992) {
+                        document.body.classList.remove('sidebar-open');
+                    }
+                });
+            });
+            
+            // Responsive behavior para sidebar
+            function checkWindowSize() {
+                if (window.innerWidth < 992) {
+                    document.body.classList.remove('sidebar-open');
+                }
+            }
+            
+            window.addEventListener('resize', checkWindowSize);
+            checkWindowSize();
+            
+            // Manejar envío del formulario
+            document.getElementById('ficha-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                guardarCambios();
+            });
+        });
+        
+        // Función para cargar los datos de la ficha
+        function cargarFicha() {
+            const token = localStorage.getItem('authToken');
+            
+            fetch(`/api/fichas/${fichaId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar ficha');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Guardar datos en variable global
+                fichaData = data;
+                
+                // Ocultar indicador de carga
+                document.getElementById('loading-indicator').style.display = 'none';
+                
+                // Mostrar tarjetas
+                document.getElementById('ficha-card').style.display = 'block';
+                document.getElementById('historia-card').style.display = 'block';
+                
+                // Llenar el formulario con los datos
+                llenarFormulario(data);
+                
+                // Cargar antecedentes médicos
+                mostrarAntecedentes(data.antecedentes);
+                
+                // Cargar evaluaciones y notas
+                mostrarEvaluaciones(data);
+                mostrarNotas(data.notas_evolucion);
+                
+                // Actualizar enlace para ver ficha
+                document.getElementById('btn-ver-ficha').href = `ver-ficha.html?id=${fichaId}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading-indicator').style.display = 'none';
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo cargar la ficha médica. Por favor, intente nuevamente más tarde.',
+                    icon: 'error',
+                    confirmButtonText: 'Volver',
+                }).then(() => {
+                    window.location.href = 'fichas-medicas.html';
+                });
+            });
+        }
+        
+        // Función para mostrar antecedentes médicos en la tabla
+        function mostrarAntecedentes(antecedentes) {
+            const tablaBody = document.getElementById('tabla-antecedentes-body');
+            const noAntecedentes = document.getElementById('no-antecedentes');
+            
+            if (!antecedentes || antecedentes.length === 0) {
+                tablaBody.innerHTML = '';
+                noAntecedentes.style.display = 'block';
+                return;
+            }
+            
+            noAntecedentes.style.display = 'none';
+            tablaBody.innerHTML = '';
+            
+            antecedentes.forEach(antecedente => {
+                const tr = document.createElement('tr');
+                
+                // Formatear fecha
+                const fecha = new Date(antecedente.fecha_registro);
+                const fechaFormateada = fecha.toLocaleDateString('es-ES');
+                
+                // Mapear tipo de cirugía a texto legible
+                let tipoCirugiaTexto = 'No especificado';
+                if (antecedente.tipo_cirugia) {
+                    const tiposCirugia = {
+                        'by_pass': 'Bypass Gástrico',
+                        'sleeve': 'Manga Gástrica',
+                        'balon': 'Balón Gástrico',
+                        'otro': 'Otro',
+                        'ninguna': 'Ninguna (Prevención)'
+                    };
+                    tipoCirugiaTexto = tiposCirugia[antecedente.tipo_cirugia] || antecedente.tipo_cirugia;
+                }
+                
+                tr.innerHTML = `
+                    <td>${fechaFormateada}</td>
+                    <td>${antecedente.diagnostico_principal || 'No especificado'}</td>
+                    <td>${tipoCirugiaTexto}</td>
+                    <td>${antecedente.profesional_nombre ? antecedente.profesional_nombre + ' ' + antecedente.profesional_apellido : 'No especificado'}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-info" onclick="verAntecedente(${antecedente.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tablaBody.appendChild(tr);
+            });
+        }
+        
+        // Función para mostrar evaluaciones en la pestaña correspondiente
+        function mostrarEvaluaciones(data) {
+            const container = document.getElementById('evaluaciones-container');
+            const noEvaluaciones = document.getElementById('no-evaluaciones');
+            
+            // Combinar todas las evaluaciones
+            let evaluaciones = [];
+            if (data.evaluaciones_medicas && data.evaluaciones_medicas.length > 0) {
+                evaluaciones = evaluaciones.concat(data.evaluaciones_medicas.map(e => ({...e, tipo: 'Médica'})));
+            }
+            if (data.evaluaciones_enfermeria && data.evaluaciones_enfermeria.length > 0) {
+                evaluaciones = evaluaciones.concat(data.evaluaciones_enfermeria.map(e => ({...e, tipo: 'Enfermería'})));
+            }
+            if (data.evaluaciones_kinesicas && data.evaluaciones_kinesicas.length > 0) {
+                evaluaciones = evaluaciones.concat(data.evaluaciones_kinesicas.map(e => ({...e, tipo: 'Kinésica'})));
+            }
+            
+            // Ordenar por fecha (más reciente primero)
+            evaluaciones.sort((a, b) => new Date(b.fecha_evaluacion) - new Date(a.fecha_evaluacion));
+            
+            if (evaluaciones.length === 0) {
+                container.innerHTML = '';
+                noEvaluaciones.style.display = 'block';
+                return;
+            }
+            
+            noEvaluaciones.style.display = 'none';
+            container.innerHTML = '';
+            
+            // Mostrar solo las 5 evaluaciones más recientes
+            const evaluacionesRecientes = evaluaciones.slice(0, 5);
+            
+            evaluacionesRecientes.forEach(evaluacion => {
+                const fecha = new Date(evaluacion.fecha_evaluacion);
+                const fechaFormateada = fecha.toLocaleDateString('es-ES');
+                
+                const card = document.createElement('div');
+                card.className = 'card mb-3';
+                
+                // Determinar color del borde según tipo
+                let borderClass = 'border-primary';
+                if (evaluacion.tipo === 'Médica') {
+                    borderClass = 'border-primary';
+                } else if (evaluacion.tipo === 'Enfermería') {
+                    borderClass = 'border-success';
+                } else if (evaluacion.tipo === 'Kinésica') {
+                    borderClass = 'border-info';
+                }
+                
+                card.classList.add(borderClass);
+                
+                // Contenido resumido para mostrar
+                let contenidoResumido = '';
+                if (evaluacion.tipo === 'Médica') {
+                    contenidoResumido = evaluacion.examen_fisico || evaluacion.indicaciones_medicas || 'Sin detalles';
+                } else if (evaluacion.tipo === 'Enfermería') {
+                    contenidoResumido = `TA: ${evaluacion.tension_arterial || '-'}, FC: ${evaluacion.frecuencia_cardiaca || '-'}, FR: ${evaluacion.frecuencia_respiratoria || '-'}, T°: ${evaluacion.temperatura || '-'}`;
+                } else if (evaluacion.tipo === 'Kinésica') {
+                    contenidoResumido = evaluacion.motivo_atencion || evaluacion.evaluacion_funcional || 'Sin detalles';
+                }
+                
+                // Limitar la longitud del contenido
+                if (contenidoResumido.length > 150) {
+                    contenidoResumido = contenidoResumido.substring(0, 147) + '...';
+                }
+                
+                card.innerHTML = `
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="fas ${evaluacion.tipo === 'Médica' ? 'fa-stethoscope' : evaluacion.tipo === 'Enfermería' ? 'fa-heartbeat' : 'fa-dumbbell'} me-2"></i>
+                            Evaluación ${evaluacion.tipo}
+                        </span>
+                        <span class="badge bg-secondary">${fechaFormateada}</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            ${evaluacion.profesional_nombre ? evaluacion.profesional_nombre + ' ' + evaluacion.profesional_apellido : 'Profesional no especificado'}
+                            (${evaluacion.profesional_especialidad || 'Sin especialidad'})
+                        </h6>
+                        <p class="card-text">${contenidoResumido}</p>
+                        <div class="text-end">
+                            <a href="ver-ficha.html?id=${fichaId}#evaluacion-${evaluacion.id}" class="btn btn-sm btn-outline-primary">
+                                Ver Completo
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Si hay más de 5 evaluaciones, mostrar botón para ver todas
+            if (evaluaciones.length > 5) {
+                const verTodasBtn = document.createElement('div');
+                verTodasBtn.className = 'text-center mt-3';
+                verTodasBtn.innerHTML = `
+                    <a href="ver-ficha.html?id=${fichaId}#notas" class="btn btn-outline-secondary">
+                        <i class="fas fa-comments me-2"></i>Ver Todas las Notas (${notas.length})
+                    </a>
+                `;
+                container.appendChild(verTodasBtn);
+            }
+        }
+        
+        // Función para ver los detalles de un antecedente
+        function verAntecedente(antecedenteId) {
+            const antecedente = fichaData.antecedentes.find(a => a.id === antecedenteId);
+            
+            if (!antecedente) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se encontró el antecedente seleccionado',
+                    icon: 'error'
+                });
+                return;
+            }
+            
+            // Formatear fechas
+            const fechaRegistro = new Date(antecedente.fecha_registro);
+            const fechaRegistroFormateada = fechaRegistro.toLocaleDateString('es-ES');
+            
+            let fechaCirugiaFormateada = 'No especificada';
+            if (antecedente.fecha_cirugia) {
+                const fechaCirugia = new Date(antecedente.fecha_cirugia);
+                fechaCirugiaFormateada = fechaCirugia.toLocaleDateString('es-ES');
+            }
+            
+            // Mapear tipo de cirugía a texto legible
+            let tipoCirugiaTexto = 'No especificado';
+            if (antecedente.tipo_cirugia) {
+                const tiposCirugia = {
+                    'by_pass': 'Bypass Gástrico',
+                    'sleeve': 'Manga Gástrica',
+                    'balon': 'Balón Gástrico',
+                    'otro': 'Otro',
+                    'ninguna': 'Ninguna (Prevención)'
+                };
+                tipoCirugiaTexto = tiposCirugia[antecedente.tipo_cirugia] || antecedente.tipo_cirugia;
+            }
+            
+            // Mostrar modal con detalles
+            Swal.fire({
+                title: 'Antecedentes Médicos',
+                html: `
+                    <div class="text-start">
+                        <p><strong>Fecha de registro:</strong> ${fechaRegistroFormateada}</p>
+                        <p><strong>Profesional:</strong> ${antecedente.profesional_nombre ? antecedente.profesional_nombre + ' ' + antecedente.profesional_apellido : 'No especificado'}</p>
+                        <hr>
+                        <p><strong>Diagnóstico principal:</strong> ${antecedente.diagnostico_principal || 'No especificado'}</p>
+                        <p><strong>Diagnósticos secundarios:</strong> ${antecedente.diagnosticos_secundarios || 'No especificados'}</p>
+                        <p><strong>Antecedentes relevantes:</strong> ${antecedente.antecedentes_relevantes || 'No especificados'}</p>
+                        <p><strong>Alergias:</strong> ${antecedente.alergias || 'No especificadas'}</p>
+                        <p><strong>Medicamentos actuales:</strong> ${antecedente.medicamentos_actuales || 'No especificados'}</p>
+                        <p><strong>Tipo de cirugía:</strong> ${tipoCirugiaTexto}</p>
+                        <p><strong>Fecha de cirugía:</strong> ${fechaCirugiaFormateada}</p>
+                    </div>
+                `,
+                width: '600px',
+                confirmButtonText: 'Cerrar',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+        
+        // Función para guardar los cambios en la ficha
+        function guardarCambios() {
+            const token = localStorage.getItem('authToken');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            // Obtener datos del formulario
+            const datosActualizados = {
+                fecha_ingreso: document.getElementById('fecha-ingreso').value,
+                motivo_consulta: document.getElementById('motivo-consulta').value,
+                profesional_deriva_id: document.getElementById('profesional-deriva').value || null,
+                prevision_salud: document.getElementById('prevision-salud').value,
+            };
+            
+            // Validación básica
+            if (!datosActualizados.fecha_ingreso || !datosActualizados.motivo_consulta) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Fecha de ingreso y motivo de consulta son campos requeridos',
+                    icon: 'error'
+                });
+                return;
+            }
+            
+            // Mostrar overlay de carga
+            loadingMessage.textContent = 'Guardando cambios...';
+            loadingOverlay.style.display = 'flex';
+            
+            // Actualizar la ficha médica
+            fetch(`/api/fichas/${fichaId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datosActualizados)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al actualizar ficha');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Verificar si hay cambios en los antecedentes
+                if (hayAntecedentesModificados()) {
+                    // Guardar nuevos antecedentes
+                    return guardarNuevosAntecedentes();
+                } else {
+                    // No hay cambios en antecedentes, mostrar éxito
+                    loadingOverlay.style.display = 'none';
+                    
+                    Swal.fire({
+                        title: 'Guardado Exitoso',
+                        text: 'La ficha médica ha sido actualizada correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Continuar'
+                    }).then(() => {
+                        // Recargar la página para mostrar los cambios
+                        window.location.reload();
+                    });
+                }
+            })
+            .then(resultadoAntecedentes => {
+                // Solo llegamos aquí si se guardaron antecedentes
+                loadingOverlay.style.display = 'none';
+                
+                Swal.fire({
+                    title: 'Guardado Exitoso',
+                    text: 'La ficha médica y los antecedentes han sido actualizados correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'Continuar'
+                }).then(() => {
+                    // Recargar la página para mostrar los cambios
+                    window.location.reload();
+                });
+            })
+            .catch(error => {
+                loadingOverlay.style.display = 'none';
+                console.error('Error:', error);
+                
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al guardar los cambios. Por favor, intente nuevamente.',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            });
+        }
+        
+        // Función para verificar si hay cambios en los antecedentes
+        function hayAntecedentesModificados() {
+            // Si no hay antecedentes previos, cualquier dato es una modificación
+            if (!fichaData.antecedentes || fichaData.antecedentes.length === 0) {
+                return true;
+            }
+            
+            const antecedenteReciente = fichaData.antecedentes[0];
+            
+            // Obtener valores actuales
+            const diagnosticoPrincipal = document.getElementById('diagnostico-principal').value;
+            const diagnosticosSecundarios = document.getElementById('diagnosticos-secundarios').value;
+            const antecedentesRelevantes = document.getElementById('antecedentes-relevantes').value;
+            const alergias = document.getElementById('alergias').value;
+            const medicamentosActuales = document.getElementById('medicamentos-actuales').value;
+            const tipoCirugia = document.getElementById('tipo-cirugia').value;
+            const fechaCirugia = document.getElementById('fecha-cirugia').value;
+            
+            // Comparar con valores anteriores
+            if (diagnosticoPrincipal !== (antecedenteReciente.diagnostico_principal || '')) return true;
+            if (diagnosticosSecundarios !== (antecedenteReciente.diagnosticos_secundarios || '')) return true;
+            if (antecedentesRelevantes !== (antecedenteReciente.antecedentes_relevantes || '')) return true;
+            if (alergias !== (antecedenteReciente.alergias || '')) return true;
+            if (medicamentosActuales !== (antecedenteReciente.medicamentos_actuales || '')) return true;
+            if (tipoCirugia !== (antecedenteReciente.tipo_cirugia || '')) return true;
+            
+            // Para fecha de cirugía, comparar solo la parte de fecha (sin hora)
+            const fechaCirugiaOriginal = antecedenteReciente.fecha_cirugia ? antecedenteReciente.fecha_cirugia.split('T')[0] : '';
+            if (fechaCirugia !== fechaCirugiaOriginal) return true;
+            
+            // Si llegamos aquí, no hay cambios
+            return false;
+        }
+        
+        // Función para guardar nuevos antecedentes
+        function guardarNuevosAntecedentes() {
+            const token = localStorage.getItem('authToken');
+            
+            // Obtener datos del formulario
+            const nuevoAntecedente = {
+                diagnostico_principal: document.getElementById('diagnostico-principal').value,
+                diagnosticos_secundarios: document.getElementById('diagnosticos-secundarios').value,
+                antecedentes_relevantes: document.getElementById('antecedentes-relevantes').value,
+                alergias: document.getElementById('alergias').value,
+                medicamentos_actuales: document.getElementById('medicamentos-actuales').value,
+                tipo_cirugia: document.getElementById('tipo-cirugia').value,
+                fecha_cirugia: document.getElementById('fecha-cirugia').value || null
+            };
+            
+            // Guardar nuevos antecedentes
+            return fetch(`/api/fichas/${fichaId}/antecedentes`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nuevoAntecedente)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al guardar antecedentes');
+                }
+                return response.json();
+            });
+        }
+    </script>
+</body>
+</html>.className = 'text-center mt-3';
+                verTodasBtn.innerHTML = `
+                    <a href="ver-ficha.html?id=${fichaId}#evaluaciones" class="btn btn-outline-secondary">
+                        <i class="fas fa-clipboard-list me-2"></i>Ver Todas las Evaluaciones (${evaluaciones.length})
+                    </a>
+                `;
+                container.appendChild(verTodasBtn);
+            }
+        }
+        
+        // Función para mostrar notas de evolución en la pestaña correspondiente
+        function mostrarNotas(notas) {
+            const container = document.getElementById('notas-container');
+            const noNotasMsg = document.getElementById('no-notas');
+            
+            if (!notas || notas.length === 0) {
+                container.innerHTML = '';
+                noNotasMsg.style.display = 'block';
+                return;
+            }
+            
+            noNotasMsg.style.display = 'none';
+            container.innerHTML = '';
+            
+            // Ordenar por fecha (más reciente primero)
+            notas.sort((a, b) => new Date(b.fecha_hora) - new Date(a.fecha_hora));
+            
+            // Mostrar solo las 5 notas más recientes
+            const notasRecientes = notas.slice(0, 5);
+            
+            notasRecientes.forEach(nota => {
+                const fecha = new Date(nota.fecha_hora);
+                const fechaFormateada = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
+                
+                const card = document.createElement('div');
+                card.className = 'card mb-3 border-warning';
+                
+                // Limitar la longitud del contenido
+                let observacionResumida = nota.observacion || 'Sin observaciones';
+                if (observacionResumida.length > 150) {
+                    observacionResumida = observacionResumida.substring(0, 147) + '...';
+                }
+                
+                card.innerHTML = `
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="fas fa-comment-medical me-2"></i>
+                            Nota de Evolución
+                        </span>
+                        <span class="badge bg-secondary">${fechaFormateada}</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            ${nota.profesional_nombre ? nota.profesional_nombre + ' ' + nota.profesional_apellido : 'Profesional no especificado'}
+                            (${nota.profesional_especialidad || 'Sin especialidad'})
+                        </h6>
+                        <p class="card-text">${observacionResumida}</p>
+                        <div class="text-end">
+                            <a href="ver-ficha.html?id=${fichaId}#nota-${nota.id}" class="btn btn-sm btn-outline-primary">
+                                Ver Completo
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Si hay más de 5 notas, mostrar botón para ver todas
+            if (notas.length > 5) {
+                const verTodasBtn = document.createElement('div');
+                verTodasBtn
+            // Campos de ID
+            document.getElementById('ficha-id').value = data.id;
+            
+            // Campos del paciente
+            document.getElementById('paciente-rut').value = data.paciente_rut || '';
+            document.getElementById('paciente-nombre').value = data.paciente_nombre || '';
+            document.getElementById('paciente-apellido').value = data.paciente_apellido || '';
+            document.getElementById('paciente-fecha-nacimiento').value = data.paciente_fecha_nacimiento ? new Date(data.paciente_fecha_nacimiento).toLocaleDateString('es-ES') : '';
+            document.getElementById('paciente-edad').value = data.paciente_edad || '';
+            document.getElementById('paciente-sexo').value = data.paciente_sexo || '';
+            document.getElementById('paciente-telefono').value = data.paciente_telefono || '';
+            document.getElementById('paciente-email').value = data.paciente_email || '';
+            
+            // Campos administrativos
+            document.getElementById('fecha-ingreso').value = data.fecha_ingreso ? data.fecha_ingreso.split('T')[0] : '';
+            document.getElementById('motivo-consulta').value = data.motivo_consulta || '';
+            document.getElementById('prevision-salud').value = data.prevision_salud || '';
+            
+            // Se establecerá después de cargar la lista de profesionales
+            // document.getElementById('profesional-deriva').value = data.profesional_deriva_id || '';
+            
+            // Estado de la ficha
+            const estadoFicha = document.getElementById('estado-ficha');
+            estadoFicha.textContent = data.estado || 'Activa';
+            
+            // Establecer clase para el badge de estado
+            if (data.estado === 'Activa') {
+                estadoFicha.classList.add('bg-success');
+            } else if (data.estado === 'Archivada') {
+                estadoFicha.classList.add('bg-secondary');
+            } else if (data.estado === 'Borrador') {
+                estadoFicha.classList.add('bg-warning');
+            }
+            
+            // Cargar datos de antecedentes (el más reciente)
+            if (data.antecedentes && data.antecedentes.length > 0) {
+                const antecedenteReciente = data.antecedentes[0];
+                document.getElementById('diagnostico-principal').value = antecedenteReciente.diagnostico_principal || '';
+                document.getElementById('diagnosticos-secundarios').value = antecedenteReciente.diagnosticos_secundarios || '';
+                document.getElementById('antecedentes-relevantes').value = antecedenteReciente.antecedentes_relevantes || '';
+                document.getElementById('alergias').value = antecedenteReciente.alergias || '';
+                document.getElementById('medicamentos-actuales').value = antecedenteReciente.medicamentos_actuales || '';
+                document.getElementById('tipo-cirugia').value = antecedenteReciente.tipo_cirugia || '';
+                document.getElementById('fecha-cirugia').value = antecedenteReciente.fecha_cirugia ? antecedenteReciente.fecha_cirugia.split('T')[0] : '';
