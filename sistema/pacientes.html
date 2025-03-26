@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pacientes - RenovaFit</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts - Ubuntu -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <!-- SweetAlert2 para notificaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom CSS -->
+    <link href="/asset/style/style.css" rel="stylesheet">
+    <link href="/asset/style/sistema.css" rel="stylesheet">
+</head>
+
+<body class="sistema-page has-sidebar">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <span class="renovafit-logo">RenovaFit</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2"></i><span id="usuario-nombre">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#" id="cerrar-sesion"><i
+                                        class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="user-details">
+                    <h5 id="sidebar-nombre">Usuario</h5>
+                    <p id="sidebar-especialidad">Especialidad</p>
+                </div>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="fichas-medicas.html"><i class="fas fa-folder-open"></i> Fichas Médicas</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-calendar-alt"></i> Agenda</a>
+            </li>
+            <li class="active">
+                <a href="pacientes.html"><i class="fas fa-users"></i> Pacientes</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-chart-line"></i> Estadísticas</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+            </li>
+            <li class="sidebar-divider"></li>
+            <li>
+                <a href="#" id="sidebar-cerrar-sesion"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1><i class="fas fa-users me-2"></i>Gestión de Pacientes</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-md-end">
+                                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Pacientes</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="container-fluid">
+            <!-- Actions Row -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <button type="button" class="btn btn-primary" id="btn-nuevo-paciente">
+                        <i class="fas fa-user-plus me-2"></i>Nuevo Paciente
+                    </button>
+                    <button class="btn btn-outline-secondary ms-2" id="btn-filtros">
+                        <i class="fas fa-filter me-2"></i>Filtrar
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar por nombre, apellido o RUT..."
+                            id="search-paciente">
+                        <button class="btn btn-primary" type="button" id="btn-buscar">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros avanzados (ocultos por defecto) -->
+            <div class="card mb-4" id="filtros-avanzados" style="display: none;">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Filtros Avanzados</h5>
+                </div>
+                <div class="card-body">
+                    <form id="form-filtros">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="filtro-sexo" class="form-label">Sexo</label>
+                                <select class="form-select" id="filtro-sexo">
+                                    <option value="">Todos</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="filtro-edad-min" class="form-label">Edad Mínima</label>
+                                <input type="number" class="form-control" id="filtro-edad-min" min="0" max="120">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="filtro-edad-max" class="form-label">Edad Máxima</label>
+                                <input type="number" class="form-control" id="filtro-edad-max" min="0" max="120">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="filtro-tipo-cirugia" class="form-label">Tipo de Cirugía</label>
+                                <select class="form-select" id="filtro-tipo-cirugia">
+                                    <option value="">Todos</option>
+                                    <option value="by_pass">Bypass Gástrico</option>
+                                    <option value="sleeve">Manga Gástrica</option>
+                                    <option value="balon">Balón Gástrico</option>
+                                    <option value="otro">Otro</option>
+                                    <option value="ninguna">Ninguna (Prevención)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="reset" class="btn btn-light me-2">Limpiar</button>
+                            <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Patient List -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Lista de Pacientes</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="pacientes-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>RUT/ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Edad</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-pacientes-body">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                        <div id="tabla-loading" class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                            <p class="mt-2">Cargando datos...</p>
+                        </div>
+                        <div id="tabla-empty" class="text-center py-5" style="display: none;">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <h5>No hay pacientes disponibles</h5>
+                            <p>Puedes comenzar creando un nuevo paciente.</p>
+                            <button type="button" class="btn btn-primary" id="btn-empty-nuevo-paciente">
+                                <i class="fas fa-user-plus me-2"></i>Nuevo Paciente
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card border-left-primary h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-primary">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stats-info ms-3">
+                                    <h5 class="stats-title">Total Pacientes</h5>
+                                    <h3 class="stats-value" id="stats-total-pacientes">--</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card border-left-success h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-success">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="stats-info ms-3">
+                                    <h5 class="stats-title">Nuevos (30 días)</h5>
+                                    <h3 class="stats-value" id="stats-nuevos-pacientes">--</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card border-left-info h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-info">
+                                    <i class="fas fa-procedures"></i>
+                                </div>
+                                <div class="stats-info ms-3">
+                                    <h5 class="stats-title">Con Cirugía</h5>
+                                    <h3 class="stats-value" id="stats-con-cirugia">--</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card border-left-warning h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-warning">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stats-info ms-3">
+                                    <h5 class="stats-title">Citas Pendientes</h5>
+                                    <h3 class="stats-value" id="stats-citas-pendientes">--</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
