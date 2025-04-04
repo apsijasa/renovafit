@@ -727,6 +727,109 @@ a:hover {
   margin-bottom: 15px;
 }
 
+/* Mejoras para los pasos (steps) del formulario de agendamiento */
+
+/* Aumentar margen inferior para dar más espacio vertical */
+.step-indicator {
+  margin-bottom: 40px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mejorar el aspecto de los círculos numerados */
+.step {
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Mejorar la visualización de las etiquetas */
+.step-label {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #5d6d7e;
+  white-space: nowrap;
+  font-weight: 500;
+  width: auto;
+  text-align: center;
+  max-width: 120px; /* Limitar ancho máximo */
+}
+
+/* Ajustes responsive para dispositivos móviles */
+@media (max-width: 767px) {
+  .step-indicator {
+      max-width: 100%;
+  }
+  
+  .step {
+      width: 30px;
+      height: 30px;
+      font-size: 12px;
+  }
+  
+  .step-label {
+      font-size: 10px;
+      max-width: 80px; /* Reducir ancho máximo en móviles */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+      top: 35px;
+  }
+}
+
+/* Para pantallas muy pequeñas como iPhone SE o similares */
+@media (max-width: 375px) {
+  .step-indicator {
+      margin-bottom: 50px; /* Aumentar margen inferior */
+  }
+  
+  .step {
+      width: 28px;
+      height: 28px;
+      font-size: 11px;
+  }
+  
+  .step-label {
+      max-width: 60px;
+  }
+}
+
+/* Ajustes adicionales para mejorar el aspecto general del formulario */
+.form-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-progress-container {
+  margin-bottom: 35px;
+}
+
+/* Mejorar la apariencia de los pasos activos y completados */
+.step.active {
+  background-color: #3498db;
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+.step.completed {
+  background-color: #2ecc71;
+}
+
 /* ---------- Animaciones ---------- */
 @keyframes fadeInDown {
   from {

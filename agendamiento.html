@@ -1,55 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendamiento - RenovaFit</title>
-    
+
     <!-- Meta SEO -->
-    <meta name="description" content="Agenda tu consulta con RenovaFit. Elige tu servicio, profesional, fecha y hora y realiza tu pago de manera segura. Da el primer paso hacia tu renovación física.">
-    <meta name="keywords" content="agendamiento, RenovaFit, consulta, entrenamiento, kinesiología, cirugía bariátrica, salud, bienestar">
+    <meta name="description"
+        content="Agenda tu consulta con RenovaFit. Elige tu servicio, profesional, fecha y hora y realiza tu pago de manera segura. Da el primer paso hacia tu renovación física.">
+    <meta name="keywords"
+        content="agendamiento, RenovaFit, consulta, entrenamiento, kinesiología, cirugía bariátrica, salud, bienestar">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.tudominio.com/agendamiento.html">
-    
+
     <!-- Open Graph -->
     <meta property="og:title" content="Agendamiento - RenovaFit">
-    <meta property="og:description" content="Agenda tu consulta con RenovaFit. Elige tu servicio, profesional, fecha y hora y realiza tu pago de manera segura. Da el primer paso hacia tu renovación física.">
+    <meta property="og:description"
+        content="Agenda tu consulta con RenovaFit. Elige tu servicio, profesional, fecha y hora y realiza tu pago de manera segura. Da el primer paso hacia tu renovación física.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.tudominio.com/agendamiento.html">
     <meta property="og:image" content="https://www.tudominio.com/asset/image/renovafit-banner.jpg">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Agendamiento - RenovaFit">
-    <meta name="twitter:description" content="Agenda tu consulta con RenovaFit. Elige tu servicio, profesional, fecha y hora y realiza tu pago de manera segura. Da el primer paso hacia tu renovación física.">
+    <meta name="twitter:description"
+        content="Agenda tu consulta con RenovaFit. Elige tu servicio, profesional, fecha y hora y realiza tu pago de manera segura. Da el primer paso hacia tu renovación física.">
     <meta name="twitter:image" content="https://www.tudominio.com/asset/image/renovafit-banner.jpg">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Google Fonts - Ubuntu -->
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
     <link href="asset/style/style.css" rel="stylesheet">
-    
+
     <style>
         /* Estilos adicionales para el flujo de agendamiento */
         .booking-step {
             display: none;
         }
+
         .booking-step.active {
             display: block;
         }
+
         .step-indicator {
             display: flex;
             justify-content: space-between;
             margin-bottom: 30px;
             position: relative;
         }
+
         .step-indicator::before {
             content: '';
             position: absolute;
@@ -60,6 +68,7 @@
             background-color: #e0e0e0;
             z-index: 1;
         }
+
         .step {
             width: 30px;
             height: 30px;
@@ -73,12 +82,15 @@
             position: relative;
             z-index: 2;
         }
+
         .step.active {
             background-color: #3498db;
         }
+
         .step.completed {
             background-color: #2ecc71;
         }
+
         .step-label {
             position: absolute;
             top: 35px;
@@ -88,13 +100,17 @@
             color: #5d6d7e;
             white-space: nowrap;
         }
-        .service-selection, .professional-selection {
+
+        .service-selection,
+        .professional-selection {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             margin-bottom: 20px;
         }
-        .service-card-small, .professional-card {
+
+        .service-card-small,
+        .professional-card {
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             padding: 15px;
@@ -103,23 +119,31 @@
             width: calc(50% - 15px);
             margin-bottom: 15px;
         }
-        .service-card-small:hover, .professional-card:hover {
+
+        .service-card-small:hover,
+        .professional-card:hover {
             border-color: #3498db;
             transform: translateY(-5px);
         }
-        .service-card-small.selected, .professional-card.selected {
+
+        .service-card-small.selected,
+        .professional-card.selected {
             border-color: #3498db;
             background-color: rgba(52, 152, 219, 0.1);
         }
+
         .service-card-small i {
             font-size: 1.5rem;
             color: #3498db;
             margin-bottom: 10px;
         }
-        .service-card-small h4, .professional-card h4 {
+
+        .service-card-small h4,
+        .professional-card h4 {
             margin-bottom: 5px;
             font-size: 1.1rem;
         }
+
         .professional-img {
             width: 80px;
             height: 80px;
@@ -127,14 +151,17 @@
             object-fit: cover;
             margin-bottom: 10px;
         }
+
         .btn-navigation {
             margin-top: 20px;
         }
+
         .payment-methods {
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
         }
+
         .payment-method {
             border: 2px solid #e0e0e0;
             border-radius: 10px;
@@ -144,18 +171,22 @@
             width: calc(33.333% - 10px);
             text-align: center;
         }
+
         .payment-method:hover {
             border-color: #3498db;
         }
+
         .payment-method.selected {
             border-color: #3498db;
             background-color: rgba(52, 152, 219, 0.1);
         }
+
         .payment-method i {
             font-size: 2rem;
             color: #3498db;
             margin-bottom: 10px;
         }
+
         .form-progress-container {
             background-color: #f5f5f5;
             border-radius: 30px;
@@ -164,6 +195,7 @@
             margin-bottom: 30px;
             overflow: hidden;
         }
+
         .form-progress {
             background-color: #3498db;
             height: 100%;
@@ -172,6 +204,7 @@
         }
     </style>
 </head>
+
 <body class="agenda-page">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
@@ -179,7 +212,8 @@
             <a class="navbar-brand" href="index.html">
                 <span class="renovafit-logo">RenovaFit</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -206,7 +240,7 @@
             </div>
         </div>
     </nav>
-    
+
     <!-- Header de agendamiento -->
     <header class="agenda-header">
         <div class="container">
@@ -214,12 +248,13 @@
                 <div class="col-lg-8 mx-auto text-center">
                     <h1>Agenda tu Consulta</h1>
                     <div class="divider"></div>
-                    <p>Da el primer paso hacia tu renovación física. Selecciona el servicio que necesitas, el profesional y el horario que más te convenga.</p>
+                    <p>Da el primer paso hacia tu renovación física. Selecciona el servicio que necesitas, el
+                        profesional y el horario que más te convenga.</p>
                 </div>
             </div>
         </div>
     </header>
-    
+
     <!-- Sección de Formulario de Agendamiento -->
     <section class="section-padding">
         <div class="container">
@@ -229,26 +264,28 @@
                         <div class="form-progress-container">
                             <div class="form-progress" id="form-progress"></div>
                         </div>
-    
+
+                        <!-- Reemplaza el div step-indicator actual por este código mejorado -->
                         <div class="step-indicator">
                             <div class="step active" id="step-indicator-1">1
-                                <span class="step-label">Información personal</span>
+                                <div class="step-label">Información personal</div>
                             </div>
                             <div class="step" id="step-indicator-2">2
-                                <span class="step-label">Selección de servicio</span>
+                                <div class="step-label">Selección de servicio</div>
                             </div>
                             <div class="step" id="step-indicator-3">3
-                                <span class="step-label">Selección de profesional</span>
+                                <div class="step-label">Selección de profesional</div>
                             </div>
                             <div class="step" id="step-indicator-4">4
-                                <span class="step-label">Fecha y hora</span>
+                                <div class="step-label">Fecha y hora</div>
                             </div>
                             <div class="step" id="step-indicator-5">5
-                                <span class="step-label">Pago</span>
+                                <div class="step-label">Pago</div>
                             </div>
                         </div>
-    
-                        <form action="https://hook.us2.make.com/wpx3hnrqg594cvxsn9e8pantgnyhjtd9" method="POST" id="booking-form">
+
+                        <form action="https://hook.us2.make.com/wpx3hnrqg594cvxsn9e8pantgnyhjtd9" method="POST"
+                            id="booking-form">
                             <!-- Paso 1: Información Personal -->
                             <div class="booking-step active" id="step-1">
                                 <div class="form-section">
@@ -260,7 +297,8 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="apellido" class="form-label">Apellido</label>
-                                            <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                            <input type="text" class="form-control" id="apellido" name="apellido"
+                                                required>
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -273,10 +311,11 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="edad" class="form-label">Edad</label>
-                                        <input type="number" class="form-control" id="edad" name="edad" min="18" max="80" required>
+                                        <input type="number" class="form-control" id="edad" name="edad" min="18"
+                                            max="80" required>
                                     </div>
                                 </div>
-    
+
                                 <div class="form-section">
                                     <h3>Información Médica</h3>
                                     <div class="mb-3">
@@ -291,115 +330,134 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="fecha_cirugia" class="form-label">Fecha de cirugía (si aplica)</label>
+                                        <label for="fecha_cirugia" class="form-label">Fecha de cirugía (si
+                                            aplica)</label>
                                         <input type="date" class="form-control" id="fecha_cirugia" name="fecha_cirugia">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="condiciones" class="form-label">¿Tienes alguna condición médica adicional que debamos conocer?</label>
-                                        <textarea class="form-control" id="condiciones" name="condiciones" rows="3"></textarea>
+                                        <label for="condiciones" class="form-label">¿Tienes alguna condición médica
+                                            adicional que debamos conocer?</label>
+                                        <textarea class="form-control" id="condiciones" name="condiciones"
+                                            rows="3"></textarea>
                                     </div>
                                 </div>
-    
+
                                 <div class="d-flex justify-content-end btn-navigation">
-                                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Siguiente <i
+                                            class="fas fa-arrow-right ms-2"></i></button>
                                 </div>
                             </div>
-    
+
                             <!-- Paso 2: Selección de Servicio -->
                             <div class="booking-step" id="step-2">
                                 <div class="form-section">
                                     <h3>Selecciona el Servicio</h3>
                                     <input type="hidden" name="servicio_seleccionado" id="servicio_seleccionado">
-                                    
+
                                     <div class="service-selection">
-                                        <div class="service-card-small" onclick="selectService('entrenamiento-personal', 'Entrenamiento Personalizado', this)">
+                                        <div class="service-card-small"
+                                            onclick="selectService('entrenamiento-personal', 'Entrenamiento Personalizado', this)">
                                             <i class="fas fa-dumbbell"></i>
                                             <h4>Entrenamiento Personalizado</h4>
                                             <p>Sesiones individuales adaptadas a tu condición física</p>
                                         </div>
-                                        <div class="service-card-small" onclick="selectService('entrenamiento-grupal', 'Entrenamiento Grupal', this)">
+                                        <div class="service-card-small"
+                                            onclick="selectService('entrenamiento-grupal', 'Entrenamiento Grupal', this)">
                                             <i class="fas fa-users"></i>
                                             <h4>Entrenamiento Grupal</h4>
                                             <p>Ejercicio en grupo con personas en situación similar</p>
                                         </div>
-                                        <div class="service-card-small" onclick="selectService('nutricion', 'Nutrición', this)">
+                                        <div class="service-card-small"
+                                            onclick="selectService('nutricion', 'Nutrición', this)">
                                             <i class="fas fa-apple-alt"></i>
                                             <h4>Nutrición</h4>
                                             <p>Asesoría nutricional especializada</p>
                                         </div>
-                                        <div class="service-card-small" onclick="selectService('dermatologia', 'Dermatología', this)">
+                                        <div class="service-card-small"
+                                            onclick="selectService('dermatologia', 'Dermatología', this)">
                                             <i class="fas fa-spa"></i>
                                             <h4>Dermatología</h4>
                                             <p>Tratamientos para la piel tras la pérdida de peso</p>
                                         </div>
-                                        <div class="service-card-small" onclick="selectService('psicologia', 'Psicología', this)">
+                                        <div class="service-card-small"
+                                            onclick="selectService('psicologia', 'Psicología', this)">
                                             <i class="fas fa-brain"></i>
                                             <h4>Psicología</h4>
                                             <p>Apoyo psicológico durante tu proceso</p>
                                         </div>
-                                        <div class="service-card-small" onclick="selectService('psiquiatria', 'Psiquiatría', this)">
+                                        <div class="service-card-small"
+                                            onclick="selectService('psiquiatria', 'Psiquiatría', this)">
                                             <i class="fas fa-pills"></i>
                                             <h4>Psiquiatría</h4>
                                             <p>Evaluación y seguimiento psiquiátrico</p>
                                         </div>
                                     </div>
                                 </div>
-    
+
                                 <div class="d-flex justify-content-between btn-navigation">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(2)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
-                                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(2)"><i
+                                            class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente <i
+                                            class="fas fa-arrow-right ms-2"></i></button>
                                 </div>
                             </div>
-    
+
                             <!-- Paso 3: Selección de Profesional -->
                             <div class="booking-step" id="step-3">
                                 <div class="form-section">
                                     <h3>Selecciona el Profesional</h3>
                                     <input type="hidden" name="profesional_seleccionado" id="profesional_seleccionado">
-                                    
+
                                     <div class="professional-selection" id="profesionales-container">
                                         <!-- Los profesionales se cargarán dinámicamente según el servicio seleccionado -->
                                     </div>
                                 </div>
-    
+
                                 <div class="d-flex justify-content-between btn-navigation">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
-                                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3)"><i
+                                            class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Siguiente <i
+                                            class="fas fa-arrow-right ms-2"></i></button>
                                 </div>
                             </div>
-    
+
                             <!-- Paso 4: Selección de Fecha y Hora -->
                             <div class="booking-step" id="step-4">
                                 <div class="form-section">
                                     <h3>Selecciona Fecha y Hora</h3>
-                                    
+
                                     <div class="mb-3">
                                         <label for="fecha_cita" class="form-label">Fecha</label>
-                                        <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required onchange="cargarHorariosDisponibles()">
+                                        <input type="date" class="form-control" id="fecha_cita" name="fecha_cita"
+                                            required onchange="cargarHorariosDisponibles()">
                                     </div>
-                                    
+
                                     <div class="horarios-container mt-4" id="horarios-container">
                                         <h5>Horarios disponibles</h5>
-                                        <p class="text-muted" id="selecciona-fecha-msg">Por favor, selecciona una fecha para ver los horarios disponibles.</p>
+                                        <p class="text-muted" id="selecciona-fecha-msg">Por favor, selecciona una fecha
+                                            para ver los horarios disponibles.</p>
                                         <div class="time-slots" id="time-slots-container" style="display: none;">
                                             <!-- Los horarios se cargarán dinámicamente aquí -->
                                         </div>
                                     </div>
-                                    
+
                                     <input type="hidden" id="horario_seleccionado" name="horario_seleccionado" required>
                                 </div>
-    
+
                                 <div class="mb-3">
                                     <label for="comentarios" class="form-label">Comentarios adicionales</label>
-                                    <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
+                                    <textarea class="form-control" id="comentarios" name="comentarios"
+                                        rows="3"></textarea>
                                 </div>
-    
+
                                 <div class="d-flex justify-content-between btn-navigation">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(4)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
-                                    <button type="button" class="btn btn-primary" onclick="nextStep(4)">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(4)"><i
+                                            class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="button" class="btn btn-primary" onclick="nextStep(4)">Siguiente <i
+                                            class="fas fa-arrow-right ms-2"></i></button>
                                 </div>
                             </div>
-    
+
                             <!-- Paso 5: Pago -->
                             <div class="booking-step" id="step-5">
                                 <div class="form-section">
@@ -422,45 +480,55 @@
                                             <div class="col-7" id="summary-price">$25.000</div>
                                         </div>
                                     </div>
-    
+
                                     <h3>Método de Pago</h3>
                                     <input type="hidden" name="metodo_pago" id="metodo_pago">
-    
+
                                     <div class="payment-methods">
-                                        <div class="payment-method" onclick="selectPaymentMethod('credit-card', 'Tarjeta de Crédito', this)">
+                                        <div class="payment-method"
+                                            onclick="selectPaymentMethod('credit-card', 'Tarjeta de Crédito', this)">
                                             <i class="fas fa-credit-card"></i>
                                             <h4>Tarjeta de Crédito</h4>
                                         </div>
-                                        <div class="payment-method" onclick="selectPaymentMethod('debit-card', 'Tarjeta de Débito', this)">
+                                        <div class="payment-method"
+                                            onclick="selectPaymentMethod('debit-card', 'Tarjeta de Débito', this)">
                                             <i class="fas fa-credit-card"></i>
                                             <h4>Tarjeta de Débito</h4>
                                         </div>
-                                        <div class="payment-method" onclick="selectPaymentMethod('webpay', 'WebPay', this)">
+                                        <div class="payment-method"
+                                            onclick="selectPaymentMethod('webpay', 'WebPay', this)">
                                             <i class="fas fa-money-check-alt"></i>
                                             <h4>WebPay</h4>
                                         </div>
                                     </div>
                                 </div>
-    
+
                                 <!-- Términos y condiciones -->
                                 <div class="form-section">
                                     <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="terminos" name="terminos" required>
-                                        <label class="form-check-label" for="terminos">He leído y acepto los términos y condiciones</label>
+                                        <input type="checkbox" class="form-check-input" id="terminos" name="terminos"
+                                            required>
+                                        <label class="form-check-label" for="terminos">He leído y acepto los términos y
+                                            condiciones</label>
                                     </div>
                                     <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="politica_privacidad" name="politica_privacidad" required>
-                                        <label class="form-check-label" for="politica_privacidad">Acepto la política de privacidad</label>
+                                        <input type="checkbox" class="form-check-input" id="politica_privacidad"
+                                            name="politica_privacidad" required>
+                                        <label class="form-check-label" for="politica_privacidad">Acepto la política de
+                                            privacidad</label>
                                     </div>
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" class="form-check-input" id="marketing" name="marketing">
-                                        <label class="form-check-label" for="marketing">Acepto recibir información y ofertas por email</label>
+                                        <label class="form-check-label" for="marketing">Acepto recibir información y
+                                            ofertas por email</label>
                                     </div>
                                 </div>
-    
+
                                 <div class="d-flex justify-content-between btn-navigation">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(5)"><i class="fas fa-arrow-left me-2"></i> Anterior</button>
-                                    <button type="submit" class="btn btn-success btn-lg">Pagar Consulta <i class="fas fa-check ms-2"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(5)"><i
+                                            class="fas fa-arrow-left me-2"></i> Anterior</button>
+                                    <button type="submit" class="btn btn-success btn-lg">Pagar Consulta <i
+                                            class="fas fa-check ms-2"></i></button>
                                 </div>
                             </div>
                         </form>
@@ -469,7 +537,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Call to Action -->
     <section class="cta-section">
         <div class="container">
@@ -484,14 +552,15 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <h3>RenovaFit</h3>
-                    <p>Especialistas en kinesiología y entrenamiento físico para personas con cirugía bariátrica, bypass gástrico o balón gástrico.</p>
+                    <p>Especialistas en kinesiología y entrenamiento físico para personas con cirugía bariátrica, bypass
+                        gástrico o balón gástrico.</p>
                     <p>© 2025 RenovaFit. Todos los derechos reservados.</p>
                 </div>
                 <div class="col-lg-4 mb-4 mb-lg-0">
@@ -505,32 +574,22 @@
                         <li><a href="agendamiento.html">Agenda tu Clase</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-4">
-                    <h3>Newsletter</h3>
-                    <p>Suscríbete para recibir consejos y novedades sobre entrenamiento especializado.</p>
-                    <form class="newsletter-form">
-                        <div class="input-group mb-3">
-                            <input type="email" class="form-control" placeholder="Tu email" aria-label="Tu email">
-                            <button class="btn btn-primary" type="submit">Suscribir</button>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
     </footer>
-    
+
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Custom JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Añadir padding al body igual a la altura del navbar
             const navbar = document.querySelector('.navbar');
             document.body.style.paddingTop = navbar.offsetHeight + 'px';
-            
+
             // Cambiar estilo del navbar al hacer scroll
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', function () {
                 if (window.scrollY > 50) {
                     navbar.classList.add('navbar-scrolled');
                 } else {
@@ -543,7 +602,7 @@
             const hoy = new Date();
             const formatoFecha = hoy.toISOString().split('T')[0];
             fechaInput.min = formatoFecha;
-            
+
             // Establecer máximo a 3 meses desde hoy
             const maxDate = new Date();
             maxDate.setMonth(maxDate.getMonth() + 3);
@@ -601,7 +660,7 @@
                         return;
                     }
                 }
-                
+
                 // Validar selección de tipo de cirugía
                 const tipoCirugia = document.querySelector('select[name="tipo_cirugia"]');
                 if (tipoCirugia.value === "") {
@@ -625,13 +684,13 @@
                 // Validar selección de fecha y hora
                 const fechaCita = document.getElementById('fecha_cita');
                 const horarioSeleccionado = document.getElementById('horario_seleccionado');
-                
+
                 if (!fechaCita.value) {
                     alert('Por favor selecciona una fecha para tu cita.');
                     fechaCita.focus();
                     return;
                 }
-                
+
                 if (!horarioSeleccionado.value) {
                     alert('Por favor selecciona un horario para tu cita.');
                     return;
@@ -640,7 +699,7 @@
                 // Actualizar resumen para el paso 5
                 document.getElementById('summary-service').textContent = nombreServicio;
                 document.getElementById('summary-professional').textContent = nombreProfesional;
-                
+
                 // Formatear la fecha y hora para el resumen
                 const fechaHora = horarioSeleccionado.value.split(' ');
                 const fecha = new Date(fechaHora[0]);
@@ -652,16 +711,16 @@
             // Ocultar el paso actual y mostrar el siguiente
             document.getElementById('step-' + currentStep).classList.remove('active');
             document.getElementById('step-' + (currentStep + 1)).classList.add('active');
-            
+
             // Actualizar indicadores de paso
             document.getElementById('step-indicator-' + currentStep).classList.remove('active');
             document.getElementById('step-indicator-' + currentStep).classList.add('completed');
             document.getElementById('step-indicator-' + (currentStep + 1)).classList.add('active');
-            
+
             // Actualizar la barra de progreso
             const progress = (currentStep * 20) + 20;
             document.getElementById('form-progress').style.width = progress + '%';
-            
+
             // Scroll al inicio del formulario
             window.scrollTo({
                 top: document.querySelector('.booking-form-container').offsetTop - 100,
@@ -673,16 +732,16 @@
         function prevStep(currentStep) {
             document.getElementById('step-' + currentStep).classList.remove('active');
             document.getElementById('step-' + (currentStep - 1)).classList.add('active');
-            
+
             // Actualizar indicadores de paso
             document.getElementById('step-indicator-' + currentStep).classList.remove('active');
             document.getElementById('step-indicator-' + (currentStep - 1)).classList.remove('completed');
             document.getElementById('step-indicator-' + (currentStep - 1)).classList.add('active');
-            
+
             // Actualizar la barra de progreso
             const progress = ((currentStep - 1) * 20);
             document.getElementById('form-progress').style.width = progress + '%';
-            
+
             // Scroll al inicio del formulario
             window.scrollTo({
                 top: document.querySelector('.booking-form-container').offsetTop - 100,
@@ -695,13 +754,13 @@
             // Quitar selección anterior
             const servicios = document.querySelectorAll('.service-card-small');
             servicios.forEach(s => s.classList.remove('selected'));
-            
+
             // Seleccionar el nuevo servicio
             element.classList.add('selected');
             servicioSeleccionado = serviceId;
             nombreServicio = serviceName;
             document.getElementById('servicio_seleccionado').value = servicioSeleccionado;
-            
+
             // Cargar profesionales para este servicio
             cargarProfesionales(serviceId);
         }
@@ -710,30 +769,30 @@
         function cargarProfesionales(serviceId) {
             const container = document.getElementById('profesionales-container');
             container.innerHTML = '';
-            
+
             const profService = profesionales[serviceId] || [];
-            
+
             if (profService.length === 0) {
                 container.innerHTML = '<p class="text-center">No hay profesionales disponibles para este servicio en este momento.</p>';
                 return;
             }
-            
+
             profService.forEach(prof => {
                 const card = document.createElement('div');
                 card.className = 'professional-card';
-                card.onclick = function() {
+                card.onclick = function () {
                     selectProfessional(prof.id, prof.nombre, this);
                 };
-                
+
                 card.innerHTML = `
                     <img src="${prof.imagen}" alt="${prof.nombre}" class="professional-img">
                     <h4>${prof.nombre}</h4>
                     <p>${prof.especialidad}</p>
                 `;
-                
+
                 container.appendChild(card);
             });
-            
+
             // Resetear selección previa
             profesionalSeleccionado = '';
             nombreProfesional = '';
@@ -745,7 +804,7 @@
             // Quitar selección anterior
             const profs = document.querySelectorAll('.professional-card');
             profs.forEach(p => p.classList.remove('selected'));
-            
+
             // Seleccionar el nuevo profesional
             element.classList.add('selected');
             profesionalSeleccionado = profId;
@@ -758,7 +817,7 @@
             // Quitar selección anterior
             const methods = document.querySelectorAll('.payment-method');
             methods.forEach(m => m.classList.remove('selected'));
-            
+
             // Seleccionar el nuevo método
             element.classList.add('selected');
             metodoPagoSeleccionado = methodId;
@@ -771,33 +830,33 @@
             const fechaSeleccionada = document.getElementById('fecha_cita').value;
             const timeSlotsContainer = document.getElementById('time-slots-container');
             const seleccionaFechaMsg = document.getElementById('selecciona-fecha-msg');
-            
+
             if (!fechaSeleccionada) {
                 timeSlotsContainer.style.display = 'none';
                 seleccionaFechaMsg.style.display = 'block';
                 return;
             }
-            
+
             // Mostrar un indicador de carga
             timeSlotsContainer.innerHTML = '<p>Cargando horarios disponibles...</p>';
             timeSlotsContainer.style.display = 'block';
             seleccionaFechaMsg.style.display = 'none';
-            
+
             // Simular una llamada a API con un retardo
-            setTimeout(function() {
+            setTimeout(function () {
                 // En un caso real, estos datos vendrían de tu servidor o API
                 // Aquí simularemos algunos horarios disponibles y otros ocupados
-                
+
                 // Crear una semilla basada en la fecha para que siempre muestre los mismos resultados para la misma fecha
                 const seed = new Date(fechaSeleccionada).getDate();
-                
+
                 const horariosManana = [
                     { hora: '08:00', disponible: seed % 2 === 0 },
                     { hora: '09:00', disponible: seed % 3 !== 0 },
                     { hora: '10:00', disponible: seed % 5 !== 0 },
                     { hora: '11:00', disponible: true }
                 ];
-                
+
                 const horariosTarde = [
                     { hora: '12:00', disponible: seed % 4 !== 0 },
                     { hora: '13:00', disponible: seed % 7 === 0 },
@@ -806,18 +865,18 @@
                     { hora: '16:00', disponible: seed % 3 === 0 },
                     { hora: '17:00', disponible: true }
                 ];
-                
+
                 const horariosNoche = [
                     { hora: '18:00', disponible: seed % 5 === 0 },
                     { hora: '19:00', disponible: true }
                 ];
-                
+
                 // Crear el HTML para los horarios
                 let html = '';
-                
+
                 // Sección mañana
                 html += '<div class="time-period"><h6>Mañana</h6><div class="time-buttons">';
-                horariosManana.forEach(function(slot) {
+                horariosManana.forEach(function (slot) {
                     if (slot.disponible) {
                         html += '<button type="button" class="time-slot-btn" onclick="seleccionarHorario(\'' + slot.hora + '\')">';
                         html += slot.hora;
@@ -829,10 +888,10 @@
                     }
                 });
                 html += '</div></div>';
-                
+
                 // Sección tarde
                 html += '<div class="time-period"><h6>Tarde</h6><div class="time-buttons">';
-                horariosTarde.forEach(function(slot) {
+                horariosTarde.forEach(function (slot) {
                     if (slot.disponible) {
                         html += '<button type="button" class="time-slot-btn" onclick="seleccionarHorario(\'' + slot.hora + '\')">';
                         html += slot.hora;
@@ -844,10 +903,10 @@
                     }
                 });
                 html += '</div></div>';
-                
+
                 // Sección noche
                 html += '<div class="time-period"><h6>Noche</h6><div class="time-buttons">';
-                horariosNoche.forEach(function(slot) {
+                horariosNoche.forEach(function (slot) {
                     if (slot.disponible) {
                         html += '<button type="button" class="time-slot-btn" onclick="seleccionarHorario(\'' + slot.hora + '\')">';
                         html += slot.hora;
@@ -859,15 +918,15 @@
                     }
                 });
                 html += '</div></div>';
-                
+
                 html += '<div class="selected-time-container mt-3 mb-2" id="selected-time-display" style="display: none;">';
                 html += '<p>Horario seleccionado: <strong id="selected-time-text"></strong></p>';
                 html += '</div>';
-                
+
                 timeSlotsContainer.innerHTML = html;
             }, 500); // Retardo de 500ms para simular carga
         }
-        
+
         // Función para seleccionar un horario
         function seleccionarHorario(hora) {
             // Remover clase 'selected' de todos los botones
@@ -875,35 +934,37 @@
             for (let i = 0; i < buttons.length; i++) {
                 buttons[i].classList.remove('selected');
             }
-            
+
             // Añadir clase 'selected' al botón correspondiente
             for (let i = 0; i < buttons.length; i++) {
                 if (buttons[i].textContent.trim() === hora) {
                     buttons[i].classList.add('selected');
                 }
             }
-            
+
             // Establecer el valor del campo oculto
             const fechaSeleccionada = document.getElementById('fecha_cita').value;
             document.getElementById('horario_seleccionado').value = fechaSeleccionada + ' ' + hora;
-            
+
             // Mostrar el horario seleccionado
             const selectedTimeDisplay = document.getElementById('selected-time-display');
             const selectedTimeText = document.getElementById('selected-time-text');
-            
+
             selectedTimeDisplay.style.display = 'block';
-            
+
             // Formatear la fecha para mostrar
             const fecha = new Date(fechaSeleccionada);
             const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones);
-            
+
             selectedTimeText.textContent = fechaFormateada + ' a las ' + hora;
         }
     </script>
     !-- Botón de WhatsApp Flotante - INSERTA AQUÍ -->
-    <a href="https://wa.me/56912345678?text=Hola%20RenovaFit%2C%20me%20gustaría%20obtener%20más%20información" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/56912345678?text=Hola%20RenovaFit%2C%20me%20gustaría%20obtener%20más%20información"
+        class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp whatsapp-float-icon"></i>
     </a>
 </body>
+
 </html>
